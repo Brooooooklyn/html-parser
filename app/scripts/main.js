@@ -5,7 +5,7 @@ function stateMachine(oldstate) {
   var newState;
   switch(oldstate) {
     //匹配扫描到<符号后再扫描到/的状态，即标签开始闭合
-    case 'getTags06':
+    case 'getTags6':
       newState = 'getNodeEnd';
       break;
     //匹配扫描到<符号后再扫描到符号表外字符的状态，即即将开始获取Node节点名
@@ -17,10 +17,10 @@ function stateMachine(oldstate) {
       newState = 'getNodeBegin';
       break;
     //匹配上一情况后再扫描到空格的状态，即开始获取attribute名
-    case 'getNodeBegin01':
+    case 'getNodeBegin1':
       newState = 'getAttributesKey';
       break;
-    case 'getNodeBegin05':
+    case 'getNodeBegin5':
       newState = 'stringNode';
       break;
     //匹配上一情况后再跟符号表外字符的状态，即正在获取attribute名
@@ -28,29 +28,29 @@ function stateMachine(oldstate) {
       newState = 'getAttributesKey';
       break;
     //
-    case 'getAttributesKey02':
+    case 'getAttributesKey2':
       newState = 'getAttributesValBegin';
       break;
-    case 'getAttributesValBegin03':
+    case 'getAttributesValBegin3':
       newState = 'getAttributesVal';
       break;
     case 'getAttributesVal-1':
-    case 'getAttributesVal01':
+    case 'getAttributesVal1':
       newState = 'getAttributesVal';
       break;
-    case 'getAttributesVal03':
+    case 'getAttributesVal3':
       newState = 'getNodeBegin';
       break;
-    case 'stringNode00':
+    case 'stringNode0':
       newState = 'getTags';
       break;
     case 'stringNode-1':
-    case 'stringNode01':
-    case 'stringNode02':
-    case 'stringNode03':
-    case 'stringNode04':
-    case 'stringNode05':
-    case 'stringNode06':
+    case 'stringNode1':
+    case 'stringNode2':
+    case 'stringNode3':
+    case 'stringNode4':
+    case 'stringNode5':
+    case 'stringNode6':
       newState = 'stringNode';
       break;
   }
@@ -60,10 +60,10 @@ function stateMachine(oldstate) {
 function autoMachine(token, pos) {
   var $$state, prestate, parser, _state;
   $$state = $$state || 'stringNode';
-  prestate = (pos === -1)? $$state + pos: _state + '0' + pos;
+  prestate = (pos === -1)? $$state + pos: _state + pos;
   _state = $$state = stateMachine(prestate);
   parser = Parser[_state];
-  parser(token);
+  parser(token, pos);
 }
 
 function EtParser(str) {

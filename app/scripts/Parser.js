@@ -4,23 +4,11 @@ var Parser = {
   getTags: function() {
 
   },
-  stringNode: function(token) {
-    var stringStack;
-    stringStack = Parser.stringStack;
-    stringStack.push(token);
-    return 'stringNode';
+  stringNode: function(token, pos) {
+    
   },
-  getNodeBegin: function(token) {
-    var nodeName, node, tokenStack, nodeStack;
-    tokenStack = Parser.tokenStack;
-    nodeStack = Parser.nodeStack;
-    if(token === '00') {
-      nodeName = tokenStack.toString();
-      node = new TreeNode(nodeName);
-      nodeStack.push(node);
-      return;
-    }
-    tokenStack.push(token);
+  getNodeBegin: function(token, pos) {
+
   },
   getNodeEnd: function(token) {
 

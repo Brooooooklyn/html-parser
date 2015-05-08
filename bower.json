@@ -1,0 +1,12 @@
+{
+  "name": "test-parser",
+  "private": true,
+  "dependencies": {
+    "jquery": "~2.1.1",
+    "requirejs": "~2.1.17"
+  },
+  "devDependencies": {
+    "mocha": "~2.2.4",
+    "chai": "~2.3.0"
+  }
+}

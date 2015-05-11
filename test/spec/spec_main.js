@@ -1,9 +1,6 @@
 /* global describe, it */
-
-(function () {
-  'use strict';
-
-  describe('public function test', function () {
+function mainSpec() {
+  return describe('public function test', function () {
     describe('core function test', function () {
       it('version should be 0.1.0', function () {
         
@@ -14,4 +11,5 @@
 
     });
   });
-})();
+}
+export {mainSpec};

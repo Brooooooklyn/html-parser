@@ -11,7 +11,7 @@ var Parser = {
 
   },
   getNodeEnd: function(token) {
-
+    
   },
   getAttributesKey: function(token) {
 

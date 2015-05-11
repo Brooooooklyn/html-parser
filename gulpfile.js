@@ -28,6 +28,7 @@ gulp.task('build-test', function () {
   return gulp.src('test/spec/**/*.js')
     .pipe($.plumber())
     .pipe($.concat('spec.js'))
+    .pipe($.babel({modules: "amd"}))
     .pipe(gulp.dest('test/'));
 });
 
@@ -63,7 +64,8 @@ gulp.task('test', ['build-test'], function () {
       routes: {
         '/js': 'dist/js',
         '/bower_components': 'bower_components',
-        '/es5': 'es5'
+        '/es5': 'es5',
+        '/es5/spec.js': 'test/spec.js'
       }
     }
   });

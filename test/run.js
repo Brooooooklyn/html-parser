@@ -3,9 +3,9 @@ require.config({
     spec: './spec'
   }
 })
-require(['spec'], function(spec) {
+require(['spec', 'main'], function(spec, main) {
   for(var test in spec) {
-    spec[test]();
+    spec[test](main);
   }
   mocha.run();
 });

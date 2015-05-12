@@ -1,9 +1,5 @@
-define(['exports', 'TreeNode'], function (exports, _TreeNode) {
+define(['exports', 'module', 'TreeNode'], function (exports, module, _TreeNode) {
   'use strict';
-
-  Object.defineProperty(exports, '__esModule', {
-    value: true
-  });
 
   function _interopRequire(obj) { return obj && obj.__esModule ? obj['default'] : obj; }
 
@@ -11,9 +7,12 @@ define(['exports', 'TreeNode'], function (exports, _TreeNode) {
 
   var Parser = {
     getTags: function getTags() {},
-    stringNode: function stringNode(token, pos) {},
-    getNodeBegin: function getNodeBegin(token, pos) {},
-    getNodeEnd: function getNodeEnd(token) {},
+    stringNode: function stringNode(token) {
+      Parser.stringStack.push(token);
+    },
+    getNodeBegin: function getNodeBegin(token) {},
+    getEndNode: function getEndNode(token) {},
+    buildNode: function buildNode() {},
     getAttributesKey: function getAttributesKey(token) {},
     getAttributesValBegin: function getAttributesValBegin() {},
     getAttributesVal: function getAttributesVal(token) {},
@@ -27,5 +26,5 @@ define(['exports', 'TreeNode'], function (exports, _TreeNode) {
     tokenStack: []
   };
 
-  exports.Parser = Parser;
+  module.exports = Parser;
 });

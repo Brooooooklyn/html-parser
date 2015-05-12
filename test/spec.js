@@ -4,14 +4,20 @@ define(['exports'], function (exports) {
   Object.defineProperty(exports, '__esModule', {
     value: true
   });
-  /* global describe, it */
-  function mainSpec() {
-    return describe('public function test', function () {
-      describe('core function test', function () {
-        it('version should be 0.1.0', function () {});
+  /* global describe, it, expect */
+  function mainSpec(main) {
+    var parser = main;
+    describe('public function test', function () {
+      describe('AST function test', function () {
+        it('Root node name test', function () {
+          var str = '<div>123</div>',
+              Ast = parser(str),
+              ast = Ast.tokenTree;
+          expect(ast.root).to.have.property('nodeName');
+          expect(ast.root.nodeName).to.equal('root');
+          console.log(Ast);
+        });
       });
-
-      describe('utils function test', function () {});
     });
   }
   exports.mainSpec = mainSpec;

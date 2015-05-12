@@ -1,12 +1,14 @@
 /* jshint devel:true */
 import Parser from 'Parser';
 
+
+var $$state;
 function stateMachine(oldstate) {
   var newState;
   switch(oldstate) {
     //匹配扫描到<符号后再扫描到/的状态，即标签开始闭合
     case 'getTags6':
-      newState = 'getNodeEnd';
+      newState = 'getEndNode';
       break;
     //匹配扫描到<符号后再扫描到符号表外字符的状态，即即将开始获取Node节点名
     case 'getTags-1':
@@ -21,7 +23,18 @@ function stateMachine(oldstate) {
       newState = 'getAttributesKey';
       break;
     case 'getNodeBegin5':
+      newState = 'buildNode';
+      break;
+    case 'buildNode0':
+      newState = 'getEndNode';
+      break;
+    case 'buildNode-1':
       newState = 'stringNode';
+      break;
+    case 'getEndNode-1':
+    case 'getEndNode5':
+    case 'getEndNode6':
+      newState = 'getEndNode';
       break;
     //匹配上一情况后再跟符号表外字符的状态，即正在获取attribute名
     case 'getAttributesKey-1':
@@ -58,25 +71,27 @@ function stateMachine(oldstate) {
 }
 
 function autoMachine(token, pos) {
-  var $$state, prestate, parser, _state;
+  var prestate, parser, _state;
   $$state = $$state || 'stringNode';
-  prestate = (pos === -1)? $$state + pos: _state + pos;
+  prestate = $$state + pos;
   _state = $$state = stateMachine(prestate);
   parser = Parser[_state];
   parser(token, pos);
 }
 
-function EtParser(str) {
+var EtParser = function(str) {
   var endt ,len, pos, i, token;
   if(!str) {
     return;
   }
+  len = str.length;
   endt = ['<', ' ', '=', '"', '\'', '>', '/'];
   for(i = 0; i < len; i++) {
     token = str.charAt(i);
-    pos = token.indexOf(token);
+    pos = endt.indexOf(token);
     autoMachine(token, pos);
   }
-}
+  return Parser;
+};
 
-export {EtParser};
+export default EtParser;

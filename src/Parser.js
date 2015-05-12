@@ -4,14 +4,17 @@ var Parser = {
   getTags: function() {
 
   },
-  stringNode: function(token, pos) {
-    
+  stringNode: function(token) {
+    Parser.stringStack.push(token);
   },
-  getNodeBegin: function(token, pos) {
+  getNodeBegin: function(token) {
 
   },
-  getNodeEnd: function(token) {
+  getEndNode: function(token) {
     
+  },
+  buildNode: function() {
+
   },
   getAttributesKey: function(token) {
 
@@ -32,4 +35,4 @@ var Parser = {
   tokenStack: []
 };
 
-export {Parser};
+export default Parser;

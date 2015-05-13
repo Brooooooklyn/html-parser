@@ -8,6 +8,7 @@ define(['exports', 'module', 'Parser'], function (exports, module, _Parser) {
   var _Parser2 = _interopRequire(_Parser);
 
   var $$state;
+
   function stateMachine(oldstate) {
     var newState;
     switch (oldstate) {
@@ -78,10 +79,13 @@ define(['exports', 'module', 'Parser'], function (exports, module, _Parser) {
   function autoMachine(token, pos) {
     var prestate, parser, _state;
     $$state = $$state || 'stringNode';
-    prestate = $$state + pos;
-    _state = $$state = stateMachine(prestate);
+    _state = $$state = stateMachine($$state + pos);
     parser = _Parser2[_state];
-    parser(token, pos);
+    if (parser) {
+      parser(token, pos);
+    } else {
+      console.log(_state);
+    }
   }
 
   var EtParser = function EtParser(str) {

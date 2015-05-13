@@ -3,6 +3,7 @@ import Parser from 'Parser';
 
 
 var $$state;
+
 function stateMachine(oldstate) {
   var newState;
   switch(oldstate) {
@@ -73,10 +74,13 @@ function stateMachine(oldstate) {
 function autoMachine(token, pos) {
   var prestate, parser, _state;
   $$state = $$state || 'stringNode';
-  prestate = $$state + pos;
-  _state = $$state = stateMachine(prestate);
+  _state = $$state = stateMachine($$state + pos);
   parser = Parser[_state];
-  parser(token, pos);
+  if(parser) {
+    parser(token, pos);
+  }else {
+    console.log(_state);
+  }
 }
 
 var EtParser = function(str) {

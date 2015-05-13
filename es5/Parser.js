@@ -10,9 +10,15 @@ define(['exports', 'module', 'TreeNode'], function (exports, module, _TreeNode) 
     stringNode: function stringNode(token) {
       Parser.stringStack.push(token);
     },
-    getNodeBegin: function getNodeBegin(token) {},
+    getNodeBegin: function getNodeBegin(token) {
+      Parser.nodeStack.push(token);
+    },
     getEndNode: function getEndNode(token) {},
-    buildNode: function buildNode() {},
+    buildNode: function buildNode() {
+      var nodeName = Parser.nodeStack.join(''),
+          node = new _TreeNode2(nodeName);
+      Parser.nodeStack = [];
+    },
     getAttributesKey: function getAttributesKey(token) {},
     getAttributesValBegin: function getAttributesValBegin() {},
     getAttributesVal: function getAttributesVal(token) {},

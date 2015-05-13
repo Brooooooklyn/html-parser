@@ -8,13 +8,15 @@ var Parser = {
     Parser.stringStack.push(token);
   },
   getNodeBegin: function(token) {
-
+    Parser.nodeStack.push(token);
   },
   getEndNode: function(token) {
     
   },
   buildNode: function() {
-
+    var nodeName = Parser.nodeStack.join(''),
+        node = new TreeNode(nodeName);
+    Parser.nodeStack = [];
   },
   getAttributesKey: function(token) {
 

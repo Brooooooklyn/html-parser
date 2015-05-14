@@ -55,7 +55,7 @@ var Parser = {
         currentName = currentNode.nodeName,
         parent;
     if(nodeName !== currentName) {
-      throw "Tag's begin and tag's end not match";
+      throw 'Tag\'s begin and tag\'s end not match';
     }else {
       Parser.nodeStack = [];
       parent = Parser.tokenTree[Parser.$$lastId].parent;

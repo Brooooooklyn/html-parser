@@ -32,15 +32,22 @@ define(['exports', 'module', 'Parser'], function (exports, module, _Parser) {
         newState = 'buildNode';
         break;
       case 'buildNode0':
-        newState = 'getEndNode';
+        newState = 'getTags';
         break;
       case 'buildNode-1':
         newState = 'stringNode';
         break;
       case 'getEndNode-1':
-      case 'getEndNode5':
-      case 'getEndNode6':
         newState = 'getEndNode';
+        break;
+      case 'getEndNode5':
+        newState = 'endNode';
+        break;
+      case 'endNode-1':
+        newState = 'stringNode';
+        break;
+      case 'endNode0':
+        newState = 'getTags';
         break;
       //匹配上一情况后再跟符号表外字符的状态，即正在获取attribute名
       case 'getAttributesKey-1':

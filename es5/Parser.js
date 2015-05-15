@@ -60,10 +60,11 @@ define(['exports', 'module', 'TreeNode'], function (exports, module, _TreeNode) 
           currentName = currentNode.nodeName,
           parent;
       if (nodeName !== currentName) {
+        console.log(Parser);
         throw 'Tag\'s begin and tag\'s end not match';
       } else {
         Parser.nodeStack = [];
-        parent = Parser.tokenTree[Parser.$$lastId].parent;
+        parent = Parser.tokenTree[Parser.$$lastId - 1].parent;
         Parser.$$lastNodeId = parent.$$id;
       }
     },

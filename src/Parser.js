@@ -6,7 +6,6 @@ var Parser = {
   $$lastId: -1,
   getTags: function() {
     var stringStack = Parser.stringStack;
-    Parser.$$nextNodePosition = 'child';
     if(stringStack.length) {
       var str = stringStack.join(''),
           node = new TreeNode('string', 3),
@@ -19,6 +18,11 @@ var Parser = {
       tokenTree[Parser.$$lastId] = node;
       lastNode.children.push(node);
       Parser.stringStack = [];
+      if(node.parent.children.length) {
+        Parser.$$nextNodePosition = 'next';
+      }else {
+        Parser.$$nextNodePosition = 'child';
+      }
     }
   },
   stringNode: function(token) {
@@ -37,15 +41,22 @@ var Parser = {
         node = new TreeNode(nodeName, 1),
         tokenTree = Parser.tokenTree,
         lastNode = tokenTree[Parser.$$lastNodeId];
+    console.log(Parser.$$nextNodePosition);
     Parser.$$lastId += 1;
     node.$$id = Parser.$$lastId;
     switch(Parser.$$nextNodePosition) {
       case 'child':
         node.parent = lastNode;
         lastNode.children.push(node);
-        tokenTree[Parser.$$lastId] = node;
+        break;
+      case 'next':
+        node.parent = lastNode.parent;
+        node.prev = lastNode;
+        lastNode.next = node;
+        lastNode.parent.children.push(node);
         break;
     }
+    tokenTree[Parser.$$lastId] = node;
     Parser.$$lastNodeId = Parser.$$lastId;
     Parser.nodeStack = [];
   },
@@ -61,6 +72,7 @@ var Parser = {
       Parser.nodeStack = [];
       parent = Parser.tokenTree[Parser.$$lastId - 1].parent;
       Parser.$$lastNodeId = parent.$$id;
+      Parser.$$nextNodePosition = 'child';
     }
   },
   getAttributesKey: function(token) {

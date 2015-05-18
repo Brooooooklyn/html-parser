@@ -11,7 +11,6 @@ define(['exports', 'module', 'TreeNode'], function (exports, module, _TreeNode) 
     $$lastId: -1,
     getTags: function getTags() {
       var stringStack = Parser.stringStack;
-      Parser.$$nextNodePosition = 'child';
       if (stringStack.length) {
         var str = stringStack.join(''),
             node = new _TreeNode2('string', 3),
@@ -24,6 +23,11 @@ define(['exports', 'module', 'TreeNode'], function (exports, module, _TreeNode) 
         tokenTree[Parser.$$lastId] = node;
         lastNode.children.push(node);
         Parser.stringStack = [];
+        if (node.parent.children.length) {
+          Parser.$$nextNodePosition = 'next';
+        } else {
+          Parser.$$nextNodePosition = 'child';
+        }
       }
     },
     stringNode: function stringNode(token) {
@@ -42,15 +46,22 @@ define(['exports', 'module', 'TreeNode'], function (exports, module, _TreeNode) 
           node = new _TreeNode2(nodeName, 1),
           tokenTree = Parser.tokenTree,
           lastNode = tokenTree[Parser.$$lastNodeId];
+      console.log(Parser.$$nextNodePosition);
       Parser.$$lastId += 1;
       node.$$id = Parser.$$lastId;
       switch (Parser.$$nextNodePosition) {
         case 'child':
           node.parent = lastNode;
           lastNode.children.push(node);
-          tokenTree[Parser.$$lastId] = node;
+          break;
+        case 'next':
+          node.parent = lastNode.parent;
+          node.prev = lastNode;
+          lastNode.next = node;
+          lastNode.parent.children.push(node);
           break;
       }
+      tokenTree[Parser.$$lastId] = node;
       Parser.$$lastNodeId = Parser.$$lastId;
       Parser.nodeStack = [];
     },
@@ -66,6 +77,7 @@ define(['exports', 'module', 'TreeNode'], function (exports, module, _TreeNode) 
         Parser.nodeStack = [];
         parent = Parser.tokenTree[Parser.$$lastId - 1].parent;
         Parser.$$lastNodeId = parent.$$id;
+        Parser.$$nextNodePosition = 'child';
       }
     },
     getAttributesKey: function getAttributesKey(token) {},

@@ -9,6 +9,7 @@ class TreeNode{
     this.content = null;
     this.$$id = $$id;
     this.children = [];
+    this.attributes = [];
   }
 
 }

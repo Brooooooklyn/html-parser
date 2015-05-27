@@ -1,10 +1,10 @@
 define(['exports'], function (exports) {
+  /* global describe, it, expect */
   'use strict';
 
   Object.defineProperty(exports, '__esModule', {
     value: true
   });
-  /* global describe, it, expect */
   function mainSpec(main) {
     var parser = main;
     describe('public function test', function () {
@@ -45,6 +45,17 @@ define(['exports'], function (exports) {
           expect(root.children.length).to.equal(2);
           expect(div).to.equal(ast[id]);
           expect(str.content).to.equal('123');
+        });
+
+        it('More tags and string compile test', function () {
+          var _str = '<div><span class="in-span">123</span></div>',
+              Ast = parser(_str),
+              ast = Ast.tokenTree,
+              div,
+              id,
+              root,
+              span,
+              str;
           console.log(ast);
         });
       });

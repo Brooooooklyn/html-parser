@@ -33,6 +33,13 @@ function mainSpec(main) {
         expect(root.children.length).to.equal(2);
         expect(div).to.equal(ast[id]);
         expect(str.content).to.equal('123');
+      });
+
+      it('More tags and string compile test', function () {
+        var _str = '<div><span class="in-span">123</span></div>',
+            Ast = parser(_str),
+            ast = Ast.tokenTree,
+            div, id, root, span, str;
         console.log(ast);
       });
 

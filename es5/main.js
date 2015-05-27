@@ -1,11 +1,10 @@
 define(['exports', 'module', 'Parser'], function (exports, module, _Parser) {
+  /* jshint devel:true */
   'use strict';
 
-  function _interopRequire(obj) { return obj && obj.__esModule ? obj['default'] : obj; }
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-  /* jshint devel:true */
-
-  var _Parser2 = _interopRequire(_Parser);
+  var _Parser2 = _interopRequireDefault(_Parser);
 
   var $$state;
 
@@ -87,7 +86,7 @@ define(['exports', 'module', 'Parser'], function (exports, module, _Parser) {
     var prestate, parser, _state;
     $$state = $$state || 'stringNode';
     _state = $$state = stateMachine($$state + pos);
-    parser = _Parser2[_state];
+    parser = _Parser2['default'][_state];
     if (parser) {
       parser(token, pos);
     } else {
@@ -107,7 +106,7 @@ define(['exports', 'module', 'Parser'], function (exports, module, _Parser) {
       pos = endt.indexOf(token);
       autoMachine(token, pos);
     }
-    return _Parser2;
+    return _Parser2['default'];
   };
 
   module.exports = EtParser;

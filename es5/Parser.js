@@ -1,9 +1,11 @@
-define(['exports', 'module', 'TreeNode'], function (exports, module, _TreeNode) {
+define(['exports', 'module', 'TreeNode', 'Attribute'], function (exports, module, _TreeNode, _Attribute) {
   'use strict';
 
-  function _interopRequire(obj) { return obj && obj.__esModule ? obj['default'] : obj; }
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-  var _TreeNode2 = _interopRequire(_TreeNode);
+  var _TreeNode2 = _interopRequireDefault(_TreeNode);
+
+  var _Attribute2 = _interopRequireDefault(_Attribute);
 
   var Parser = {
     $$lastNodeId: 'root',
@@ -14,7 +16,7 @@ define(['exports', 'module', 'TreeNode'], function (exports, module, _TreeNode) 
           lastNode = tokenTree[Parser.$$lastNodeId];
       if (stringStack.length) {
         var str = stringStack.join(''),
-            node = new _TreeNode2('string', 3);
+            node = new _TreeNode2['default']('string', 3);
         node.content = str;
         node.parent = lastNode;
         Parser.$$lastId += 1;
@@ -37,7 +39,7 @@ define(['exports', 'module', 'TreeNode'], function (exports, module, _TreeNode) 
     },
     buildNode: function buildNode() {
       var nodeName = Parser.nodeStack.join(''),
-          node = new _TreeNode2(nodeName, 1),
+          node = new _TreeNode2['default'](nodeName, 1),
           tokenTree = Parser.tokenTree,
           lastNode = tokenTree[Parser.$$lastNodeId],
           length;
@@ -70,11 +72,17 @@ define(['exports', 'module', 'TreeNode'], function (exports, module, _TreeNode) 
         Parser.$$lastNodeId = parent.$$id;
       }
     },
-    getAttributesKey: function getAttributesKey(token) {},
-    getAttributesValBegin: function getAttributesValBegin() {},
+    getAttributesKey: function getAttributesKey(token) {
+      Parser.attrStack.push(token);
+    },
+    getAttributesValBegin: function getAttributesValBegin() {
+      var attrName = Parser.attrStack.join(''),
+          attr = new _Attribute2['default'](attrName);
+      console.log(attr);
+    },
     getAttributesVal: function getAttributesVal(token) {},
     tokenTree: {
-      root: new _TreeNode2('root', 'root')
+      root: new _TreeNode2['default']('root', 'root')
     },
     treeHead: 'root',
     nodeStack: [],

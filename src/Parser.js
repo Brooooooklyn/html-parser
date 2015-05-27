@@ -1,4 +1,5 @@
 import TreeNode from 'TreeNode';
+import Attribute from 'Attribute';
 
 var Parser = {
   $$lastNodeId: 'root',
@@ -66,10 +67,12 @@ var Parser = {
     }
   },
   getAttributesKey: function(token) {
-
+    Parser.attrStack.push(token);
   },
   getAttributesValBegin: function() {
-
+    var attrName = Parser.attrStack.join(''),
+        attr = new Attribute(attrName);
+    console.log(attr);
   },
   getAttributesVal: function(token) {
 

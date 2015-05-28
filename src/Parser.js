@@ -86,12 +86,13 @@ class Parser {
         currentName = currentNode.nodeName,
         parent;
     if(nodeName !== currentName) {
-      console.log(nodeName);
-      console.log(currentName);
-      throw 'Tag\'s begin and tag\'s end not match';
+      console.log(this.tokenTree);
+      console.log('last node name: ' + nodeName);
+      console.log('current node name: ' + currentName);
+      console.log('Tag\'s begin and tag\'s end not match, ignore this loop.');
     }else {
       nodeStack = [];
-      parent = tokenTree[$$lastId - 1].parent;
+      parent = tokenTree[$$lastNodeId].parent;
       $$lastNodeId = parent.$$id;
     }
   }

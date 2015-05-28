@@ -1,4 +1,4 @@
-var $$state;
+var $$state = 'stringNode';
 
 function transfer(oldstate) {
   var newState;
@@ -40,8 +40,6 @@ function transfer(oldstate) {
       newState = 'getTags';
       break;
     case 'getAttributesKey-1':
-      newState = 'getAttributesKey';
-      break;
     case 'getAttributesKey1':
       newState = 'getAttributesKey';
       break;
@@ -79,10 +77,6 @@ function transfer(oldstate) {
 
 function stateMachine(token, pos) {
   var prestate, _state;
-  $$state = $$state || 'stringNode';
-  if(pos === 1) {
-
-  }
   _state = $$state = transfer($$state + pos);
   return _state;
 }

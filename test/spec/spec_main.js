@@ -35,12 +35,22 @@ function mainSpec(main) {
         expect(str.content).to.equal('123');
       });
 
-      it('More tags and string compile test', function () {
-        var _str = '<div class="fool" id="sdsd"><span class="in-span item item-icon-left" id="hahaha">123</span></div>',
+      it('Attributes compile test', function () {
+        var _str = '<div class= "fool"   id = "sdsd"><span class="in-span item item-icon-left" id="hahaha">123</span></div>',
             parser = new Parser(_str),
             ast = parser.tokenTree,
-            div, id, root, span, str;
-        console.log(ast);
+            div = ast[0],
+            span = ast[1],
+            divAttributes = div.attributes,
+            spanAttributes = span.attributes;
+        expect(divAttributes[0].name).to.equal('class');
+        expect(divAttributes[0].val).to.equal('fool');
+        expect(divAttributes[1].name).to.equal('id');
+        expect(divAttributes[1].val).to.equal('sdsd');
+        expect(spanAttributes[0].name).to.equal('class');
+        expect(spanAttributes[0].val).to.equal('in-span item item-icon-left');
+        expect(spanAttributes[1].name).to.equal('id');
+        expect(spanAttributes[1].val).to.equal('hahaha');
       });
 
     });

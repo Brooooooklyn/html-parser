@@ -3,19 +3,15 @@ var $$state;
 function transfer(oldstate) {
   var newState;
   switch(oldstate) {
-    //匹配扫描到<符号后再扫描到/的状态，即标签开始闭合
     case 'getTags6':
       newState = 'getEndNode';
       break;
-    //匹配扫描到<符号后再扫描到符号表外字符的状态，即即将开始获取Node节点名
     case 'getTags-1':
       newState = 'getNodeBegin';
       break;
-    //匹配上一情况后跟字符串的状态，即正在获取Node节点名
     case 'getNodeBegin-1':
       newState = 'getNodeBegin';
       break;
-    //匹配上一情况后再扫描到空格的状态，即开始获取attribute名
     case 'getNodeBegin1':
       newState = 'getAttributesKey';
       break;
@@ -43,12 +39,16 @@ function transfer(oldstate) {
     case 'endNode0':
       newState = 'getTags';
       break;
-    //匹配上一情况后再跟符号表外字符的状态，即正在获取attribute名
     case 'getAttributesKey-1':
       newState = 'getAttributesKey';
       break;
-    //
+    case 'getAttributesKey1':
+      newState = 'getAttributesKey';
+      break;
     case 'getAttributesKey2':
+      newState = 'getAttributesValBegin';
+      break;
+    case 'getAttributesValBegin1':
       newState = 'getAttributesValBegin';
       break;
     case 'getAttributesValBegin3':

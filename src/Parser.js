@@ -21,7 +21,7 @@ class Parser {
     var tokenTree = this.tokenTree,
         lastNode = tokenTree[$$lastNodeId];
     if(stringStack.length) {
-      var str = stringStack.join(''),
+      let str = stringStack.join(''),
           node = new TreeNode('string', 3);
       node.content = str;
       node.parent = lastNode;
@@ -97,15 +97,19 @@ class Parser {
   }
 
   getAttributesKey(token) {
-    tokenStack.push(token);
+    if(token !== ' '){
+      tokenStack.push(token);
+    }
   }
 
-  getAttributesValBegin() {
-    var tokenTree = this.tokenTree,
-        attrName = tokenStack.join(''),
-        attr = new Attribute(attrName);
-    attrStack.push(attr);
-    tokenStack = [];
+  getAttributesValBegin(token) {
+    if (token !== ' ') {
+      let tokenTree = this.tokenTree,
+          attrName = tokenStack.join(''),
+          attr = new Attribute(attrName);
+      attrStack.push(attr);
+      tokenStack = [];
+    }
   }
 
   getAttributesVal(token) {

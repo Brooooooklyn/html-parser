@@ -1,6 +1,4 @@
-/*global -$ */
 'use strict';
-// generated on 2015-05-02 using generator-gulp-webapp 0.3.0
 var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
 var browserSync = require('browser-sync');
@@ -17,6 +15,7 @@ gulp.task('jshint', function () {
 gulp.task('build-js', ['jshint'], function () {
   return gulp.src('src/**/*.js')
     .pipe($.plumber())
+    .pipe($.sourcemaps.init())
     .pipe($.babel({modules: "amd"}))
     .pipe(gulp.dest('es5/'))
     .pipe($.concat('app.js'))

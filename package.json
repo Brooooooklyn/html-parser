@@ -13,6 +13,7 @@
     "gulp-jshint": "^1.5.3",
     "gulp-load-plugins": "^0.8.0",
     "gulp-plumber": "^1.0.0",
+    "gulp-rimraf": "^0.1.1",
     "gulp-size": "^1.1.0",
     "gulp-sourcemaps": "^1.5.2",
     "jshint-stylish": "^1.0.2",

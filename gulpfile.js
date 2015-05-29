@@ -12,13 +12,25 @@ gulp.task('jshint', function () {
     .pipe($.if(!browserSync.active, $.jshint.reporter('fail')));
 });
 
-gulp.task('build-js', ['jshint'], function () {
+gulp.task('published-js', ['jshint'], function () {
   return gulp.src('src/**/*.js')
     .pipe($.plumber())
     .pipe($.sourcemaps.init())
     .pipe($.babel({modules: "common"}))
     .pipe(gulp.dest('es5/'))
-    .pipe($.concat('app.js'))
+    .pipe($.sourcemaps.write('.'))
+});
+
+gulp.task('clean', function () {
+  return gulp.src(['es5/', 'dist/'])
+    .pipe($.rimraf());
+});
+
+gulp.task('build-js', ['jshint'], function () {
+  return gulp.src('src/**/*.js')
+    .pipe($.plumber())
+    .pipe($.sourcemaps.init())
+    .pipe($.babel({modules: "amd"}))
     .pipe($.sourcemaps.write('.'))
     .pipe(gulp.dest('dist/js/'));
 });
@@ -39,9 +51,8 @@ gulp.task('test', ['build-test'], function () {
       baseDir: ['test', 'dist', 'src'],
       routes: {
         '/js': 'dist/js',
-        '/bower_components': 'bower_components',
-        '/es5': 'es5',
-        '/es5/spec.js': 'test/spec.js'
+        '/test': 'test',
+        '/bower_components': 'bower_components'
       }
     }
   });
@@ -61,6 +72,7 @@ gulp.task('build', ['build-js'], function () {
   return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
 });
 
-gulp.task('default', function () {
+gulp.task('default', ['clean'], function () {
+  gulp.start('published-js');
   gulp.start('build');
 });

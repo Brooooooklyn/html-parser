@@ -1,8 +1,8 @@
 require.config({
   paths: {
-    spec: './spec'
+    spec: '../test/spec'
   }
-})
+});
 require(['spec', 'main'], function(spec, main) {
   for(var test in spec) {
     spec[test](main);

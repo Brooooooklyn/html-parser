@@ -3,6 +3,7 @@ import Parser from 'Parser';
 import stateMachine from 'StateMachine';
 
 var basicSymbol = ['<', ' ', '=', '"', '\'', '>', '/'];
+var $$endStates = ['stringNode', 'endNode'];
 
 class EtParser{
   constructor(str) {

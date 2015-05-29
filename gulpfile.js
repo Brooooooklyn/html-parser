@@ -46,15 +46,15 @@ gulp.task('test', ['build-test'], function () {
     }
   });
 
-  // watch for changes
+  gulp.watch('src/**/*.js', ['build-js']);
+  gulp.watch('test/spec/**/*.js', ['build-test']);
+
   gulp.watch([
     'test/*.html',
     'src/**/*.js',
     'test/spec/**/*.js'
   ]).on('change', reload);
 
-  gulp.watch('src/**/*.js', ['build-js']);
-  gulp.watch('test/spec/**/*.js', ['build-test']);
 });
 
 gulp.task('build', ['build-js'], function () {

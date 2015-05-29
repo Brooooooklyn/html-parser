@@ -16,7 +16,7 @@ gulp.task('build-js', ['jshint'], function () {
   return gulp.src('src/**/*.js')
     .pipe($.plumber())
     .pipe($.sourcemaps.init())
-    .pipe($.babel({modules: "amd"}))
+    .pipe($.babel({modules: "common"}))
     .pipe(gulp.dest('es5/'))
     .pipe($.concat('app.js'))
     .pipe($.sourcemaps.write('.'))

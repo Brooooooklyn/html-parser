@@ -17,7 +17,7 @@ var _StateMachine = require('StateMachine');
 
 var _StateMachine2 = _interopRequireDefault(_StateMachine);
 
-var basicSymbol = ['<', ' ', '=', '"', '\'', '>', '/'];
+var basicSymbol = ['<', ' ', '=', '"', '\'', '>', '/', '!', '-'];
 var $$endStates = ['stringNode', 'endNode'];
 
 var EtParser = function EtParser(str) {

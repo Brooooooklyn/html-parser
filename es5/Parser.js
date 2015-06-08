@@ -18,7 +18,7 @@ var _Attribute = require('Attribute');
 
 var _Attribute2 = _interopRequireDefault(_Attribute);
 
-var nodeStack, attrStack, stringStack, tokenStack, treeHead, $$lastNodeId, $$lastId;
+var nodeStack, attrStack, commentStack, stringStack, tokenStack, treeHead, $$lastNodeId, $$lastId;
 
 var Parser = (function () {
   function Parser() {
@@ -30,6 +30,7 @@ var Parser = (function () {
     nodeStack = [];
     attrStack = [];
     stringStack = [];
+    commentStack = [];
     tokenStack = [];
     treeHead = 'root';
     $$lastNodeId = 'root';
@@ -51,6 +52,46 @@ var Parser = (function () {
         tokenTree[$$lastId] = node;
         lastNode.children.push(node);
         stringStack = [];
+      }
+    }
+  }, {
+    key: 'getComment',
+    value: function getComment(token) {
+      commentStack.push(token);
+    }
+  }, {
+    key: 'buildComment',
+    value: function buildComment() {
+      var node = new _TreeNode2['default']('comment', 8),
+          tokenTree = this.tokenTree,
+          lastNode = tokenTree[$$lastNodeId],
+          length = commentStack.length,
+          content,
+          commentStart,
+          commentEnd;
+
+      commentStart = content.shift() + content.shift() + content.shift();
+      commentEnd = content.pop() + content.pop() + content.pop();
+
+      if (commentStart === '!--' && commentEnd === '>--') {
+        $$lastId += 1;
+        node.$$id = $$lastId;
+        node.content = content.join('');
+        length = lastNode.children.length;
+        if (length) {
+          var prev = lastNode.children[length - 1];
+          node.prev = prev;
+          prev.next = node;
+        }
+        node.parent = lastNode;
+        lastNode.children.push(node);
+        commentStack = [];
+        tokenTree[$$lastId] = node;
+        $$lastNodeId = $$lastId;
+      } else {
+        console.log(commentStart);
+        console.log(commentEnd);
+        throw 'Illegal html comment.';
       }
     }
   }, {

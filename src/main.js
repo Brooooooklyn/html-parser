@@ -2,7 +2,7 @@
 import Parser from 'Parser';
 import stateMachine from 'StateMachine';
 
-var basicSymbol = ['<', ' ', '=', '"', '\'', '>', '/'];
+var basicSymbol = ['<', ' ', '=', '"', '\'', '>', '/', '!', '-'];
 var $$endStates = ['stringNode', 'endNode'];
 
 class EtParser{
@@ -20,7 +20,7 @@ class EtParser{
       if(_parser[_state]) {
         _parser[_state](token, pos);
       }else {
-        console.log(_state);
+        console.log(token);
       }
     }
     return _parser;

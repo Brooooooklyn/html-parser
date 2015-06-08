@@ -1,7 +1,7 @@
 import TreeNode from 'TreeNode';
 import Attribute from 'Attribute';
 
-var nodeStack, attrStack, stringStack, tokenStack, treeHead,
+var nodeStack, attrStack, commentStack, stringStack, tokenStack, treeHead,
     $$lastNodeId, $$lastId;
 
 class Parser {
@@ -12,6 +12,7 @@ class Parser {
     nodeStack = [];
     attrStack = [];
     stringStack = [];
+    commentStack = [];
     tokenStack = [];
     treeHead = 'root';
     $$lastNodeId = 'root';
@@ -30,6 +31,41 @@ class Parser {
       tokenTree[$$lastId] = node;
       lastNode.children.push(node);
       stringStack = [];
+    }
+  }
+
+  getComment(token) {
+    commentStack.push(token);
+  }
+
+  buildComment() {
+    var node = new TreeNode('comment', 8),
+        tokenTree = this.tokenTree,
+        lastNode = tokenTree[$$lastNodeId],
+        length = commentStack.length,
+        commentStart, commentEnd;
+
+    commentStart = commentStack.shift() + commentStack.shift() + commentStack.shift();
+    commentEnd = commentStack.pop() + commentStack.pop();
+
+    if(commentStart === '!--' && commentEnd === '--') {
+      $$lastId += 1;
+      node.$$id = $$lastId;
+      node.content = commentStack.join('');
+      length = lastNode.children.length;
+      if(length) {
+        let prev = lastNode.children[length - 1];
+        node.prev = prev;
+        prev.next = node;
+      }
+      node.parent = lastNode;
+      lastNode.children.push(node);
+      commentStack = [];
+      tokenTree[$$lastId] = node;
+    }else {
+      console.log(commentStart);
+      console.log(commentEnd);
+      throw 'Illegal html comment.';
     }
   }
 

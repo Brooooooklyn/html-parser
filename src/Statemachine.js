@@ -9,7 +9,29 @@ function transfer(oldstate) {
     case 'getTags-1':
       newState = 'getNodeBegin';
       break;
+    case 'getTags7':
+    case 'getComment-1':
+    case 'getComment0':
+    case 'getComment1':
+    case 'getComment2':
+    case 'getComment3':
+    case 'getComment4':
+    case 'getComment6':
+    case 'getComment7':
+    case 'getComment8':
+      newState = 'getComment';
+      break;
+    case 'getComment5':
+      newState = 'buildComment';
+      break;
+    case 'buildComment-1':
+      newState = 'stringNode';
+      break;
+    case 'buildComment0':
+      newState = 'getTags';
+      break;
     case 'getNodeBegin-1':
+    case 'getNodeBegin8':
       newState = 'getNodeBegin';
       break;
     case 'getNodeBegin1':
@@ -28,6 +50,7 @@ function transfer(oldstate) {
       newState = 'stringNode';
       break;
     case 'getEndNode-1':
+    case 'getEndNode8':
       newState = 'getEndNode';
       break;
     case 'getEndNode5':
@@ -41,6 +64,8 @@ function transfer(oldstate) {
       break;
     case 'getAttributesKey-1':
     case 'getAttributesKey1':
+    case 'getAttributesKey7':
+    case 'getAttributesKey8':
       newState = 'getAttributesKey';
       break;
     case 'getAttributesKey2':
@@ -54,6 +79,8 @@ function transfer(oldstate) {
       break;
     case 'getAttributesVal-1':
     case 'getAttributesVal1':
+    case 'getAttributesVal7':
+    case 'getAttributesVal8':
       newState = 'getAttributesVal';
       break;
     case 'getAttributesVal3':
@@ -69,7 +96,12 @@ function transfer(oldstate) {
     case 'stringNode4':
     case 'stringNode5':
     case 'stringNode6':
+    case 'stringNode7':
+    case 'stringNode8':
       newState = 'stringNode';
+      break;
+    default:
+      console.log(oldstate);
       break;
   }
   return newState;

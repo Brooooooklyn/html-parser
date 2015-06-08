@@ -17,7 +17,7 @@ var _StateMachine = require('StateMachine');
 
 var _StateMachine2 = _interopRequireDefault(_StateMachine);
 
-var basicSymbol = ['<', ' ', '=', '"', '\'', '>', '/'];
+var basicSymbol = ['<', ' ', '=', '"', '\'', '>', '/', '!', '-'];
 var $$endStates = ['stringNode', 'endNode'];
 
 var EtParser = function EtParser(str) {
@@ -36,7 +36,7 @@ var EtParser = function EtParser(str) {
     if (_parser[_state]) {
       _parser[_state](token, pos);
     } else {
-      console.log(_state);
+      console.log(token);
     }
   }
   return _parser;

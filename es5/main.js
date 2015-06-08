@@ -36,7 +36,7 @@ var EtParser = function EtParser(str) {
     if (_parser[_state]) {
       _parser[_state](token, pos);
     } else {
-      console.log(_state);
+      console.log(token);
     }
   }
   return _parser;

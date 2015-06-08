@@ -36,6 +36,7 @@ function transfer(oldstate) {
       newState = 'getTags';
       break;
     case 'getNodeBegin-1':
+    case 'getNodeBegin8':
       newState = 'getNodeBegin';
       break;
     case 'getNodeBegin1':
@@ -67,6 +68,8 @@ function transfer(oldstate) {
       break;
     case 'getAttributesKey-1':
     case 'getAttributesKey1':
+    case 'getAttributesKey7':
+    case 'getAttributesKey8':
       newState = 'getAttributesKey';
       break;
     case 'getAttributesKey2':
@@ -80,6 +83,8 @@ function transfer(oldstate) {
       break;
     case 'getAttributesVal-1':
     case 'getAttributesVal1':
+    case 'getAttributesVal7':
+    case 'getAttributesVal8':
       newState = 'getAttributesVal';
       break;
     case 'getAttributesVal3':
@@ -95,6 +100,8 @@ function transfer(oldstate) {
     case 'stringNode4':
     case 'stringNode5':
     case 'stringNode6':
+    case 'stringNode7':
+    case 'stringNode8':
       newState = 'stringNode';
       break;
   }

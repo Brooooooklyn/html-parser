@@ -68,7 +68,22 @@ function mainSpec(Parser) {
         expect(ion.children[1].nodeName).to.equal('time');
         expect(ion.children[1].children[0].nodeType).to.equal(3);
         expect(ion.children[1].children[0].content).to.equal('31212312312');
+      });
+
+      it('Comment compile test', function () {
+        var _str ='<div class= "fool" id = "sdsd">'+
+                    '<!--12121 -->' +
+                    '<span class="in-span item item-icon-left" id="hahaha">123</span>' +
+                    '<time data-time="1023120231"></time>' +
+                    '<ion-list class="div2">' +
+                      '<span>123212</span>' +
+                      '<time>31212312312</time>' +
+                    '</ion-list>' +
+                  '</div>';
+        var parser = new Parser(_str),
+            ast = parser.tokenTree;
         console.log(ast);
+
       });
 
     });

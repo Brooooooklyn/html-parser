@@ -1,5 +1,5 @@
 /* global describe, it, expect */
-function mainSpec(Parser) {
+function basicSpec(Parser) {
   describe('public function test', function () {
     describe('Basic DOM compile test', function () {
       it('Simple div and string compile test', function () {
@@ -73,15 +73,20 @@ function mainSpec(Parser) {
       it('Comment compile test', function () {
         var _str ='<div class= "fool" id = "sdsd">'+
                     '<!--12121 -->' +
-                    '<span class="in-span item item-icon-left" id="hahaha">123</span>' +
-                    '<time data-time="1023120231"></time>' +
                     '<ion-list class="div2">' +
                       '<span>123212</span>' +
                       '<time>31212312312</time>' +
                     '</ion-list>' +
                   '</div>';
         var parser = new Parser(_str),
-            ast = parser.tokenTree;
+            ast = parser.tokenTree,
+            div = ast[0],
+            comment = div.children[0];
+        expect(comment.nodeType).to.equal(8);
+        expect(comment.content).to.equal('12121 ');
+
+        expect(comment.next.$$id).to.equal(2);
+        expect(comment.prev).to.equal(null);
         console.log(ast);
 
       });
@@ -89,4 +94,4 @@ function mainSpec(Parser) {
     });
   });
 }
-export {mainSpec};
+export {basicSpec};

@@ -66,17 +66,16 @@ var Parser = (function () {
           tokenTree = this.tokenTree,
           lastNode = tokenTree[$$lastNodeId],
           length = commentStack.length,
-          content,
           commentStart,
           commentEnd;
 
-      commentStart = content.shift() + content.shift() + content.shift();
-      commentEnd = content.pop() + content.pop() + content.pop();
+      commentStart = commentStack.shift() + commentStack.shift() + commentStack.shift();
+      commentEnd = commentStack.pop() + commentStack.pop();
 
-      if (commentStart === '!--' && commentEnd === '>--') {
+      if (commentStart === '!--' && commentEnd === '--') {
         $$lastId += 1;
         node.$$id = $$lastId;
-        node.content = content.join('');
+        node.content = commentStack.join('');
         length = lastNode.children.length;
         if (length) {
           var prev = lastNode.children[length - 1];
@@ -87,7 +86,6 @@ var Parser = (function () {
         lastNode.children.push(node);
         commentStack = [];
         tokenTree[$$lastId] = node;
-        $$lastNodeId = $$lastId;
       } else {
         console.log(commentStart);
         console.log(commentEnd);

@@ -5,9 +5,9 @@ Object.defineProperty(exports, '__esModule', {
 });
 var $$state = 'stringNode';
 
-function transfer(oldstate) {
+function transfer(state, pos) {
   var newState;
-  switch (oldstate) {
+  switch (state) {
     case 'getTags6':
       newState = 'getEndNode';
       break;
@@ -55,6 +55,7 @@ function transfer(oldstate) {
       newState = 'stringNode';
       break;
     case 'getEndNode-1':
+    case 'getEndNode8':
       newState = 'getEndNode';
       break;
     case 'getEndNode5':
@@ -104,13 +105,16 @@ function transfer(oldstate) {
     case 'stringNode8':
       newState = 'stringNode';
       break;
+    default:
+      console.log(state);
+      break;
   }
   return newState;
 }
 
 function stateMachine(token, pos) {
   var prestate, _state;
-  _state = $$state = transfer($$state + pos);
+  _state = $$state = transfer($$state, pos);
   return _state;
 }
 

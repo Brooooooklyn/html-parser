@@ -5,104 +5,113 @@ Object.defineProperty(exports, '__esModule', {
 });
 var $$state = 'stringNode';
 
-function transfer(oldstate) {
+function transfer(state, pos) {
   var newState;
-  switch (oldstate) {
-    case 'getTags6':
-      newState = 'getEndNode';
+  switch (state) {
+    case 'getTags':
+      if (pos === 6) {
+        newState = 'getEndNode';
+      } else if (pos === -1) {
+        newState = 'getNodeBegin';
+      } else if (pos === 7) {
+        newState = 'getComment';
+      }
       break;
-    case 'getTags-1':
-      newState = 'getNodeBegin';
+    case 'getComment':
+      if (pos === 5) {
+        newState = 'buildComment';
+      } else {
+        newState = 'getComment';
+      }
       break;
-    case 'getTags7':
-    case 'getComment-1':
-    case 'getComment0':
-    case 'getComment1':
-    case 'getComment2':
-    case 'getComment3':
-    case 'getComment4':
-    case 'getComment6':
-    case 'getComment7':
-    case 'getComment8':
-      newState = 'getComment';
+    case 'buildComment':
+      if (pos === -1) {
+        newState = 'stringNode';
+      } else if (pos === 0) {
+        newState = 'getTags';
+      }
       break;
-    case 'getComment5':
-      newState = 'buildComment';
+    case 'getNodeBegin':
+      switch (pos) {
+        case -1:
+        case 8:
+          newState = 'getNodeBegin';
+          break;
+        case 1:
+          newState = 'getAttributesKey';
+          break;
+        case 5:
+          newState = 'buildNode';
+          break;
+      }
       break;
-    case 'buildComment-1':
-      newState = 'stringNode';
+    case 'getNodeName':
+      if (pos === 1) {
+        newState = 'getAttributesKey';
+      }
       break;
-    case 'buildComment0':
-      newState = 'getTags';
+    case 'buildNode':
+      if (pos === 0) {
+        newState = 'getTags';
+      } else if (pos === -1) {
+        newState = 'stringNode';
+      }
       break;
-    case 'getNodeBegin-1':
-    case 'getNodeBegin8':
-      newState = 'getNodeBegin';
+    case 'getEndNode':
+      if (pos === -1 || pos === 8) {
+        newState = 'getEndNode';
+      } else if (pos === 5) {
+        newState = 'endNode';
+      }
       break;
-    case 'getNodeBegin1':
-      newState = 'getAttributesKey';
+    case 'endNode':
+      if (pos === -1) {
+        newState = 'stringNode';
+      } else if (pos === 0) {
+        newState = 'getTags';
+      }
       break;
-    case 'getNodeBegin5':
-      newState = 'buildNode';
+    case 'getAttributesKey':
+      switch (pos) {
+        case -1:
+        case 1:
+        case 7:
+        case 8:
+          newState = 'getAttributesKey';
+          break;
+        case 2:
+          newState = 'getAttributesValBegin';
+      }
       break;
-    case 'getNodeName1':
-      newState = 'getAttributesKey';
+    case 'getAttributesValBegin':
+      if (pos === 1) {
+        newState = 'getAttributesValBegin';
+      } else if (pos === 3) {
+        newState = 'getAttributesVal';
+      }
       break;
-    case 'buildNode0':
-      newState = 'getTags';
+    case 'getAttributesVal':
+      switch (pos) {
+        case -1:
+        case 1:
+        case 7:
+        case 8:
+          newState = 'getAttributesVal';
+          break;
+        case 3:
+          newState = 'getNodeBegin';
+          break;
+      }
       break;
-    case 'buildNode-1':
-      newState = 'stringNode';
+    case 'stringNode':
+      if (pos === 0) {
+        newState = 'getTags';
+      } else {
+        newState = 'stringNode';
+      }
       break;
-    case 'getEndNode-1':
-      newState = 'getEndNode';
-      break;
-    case 'getEndNode5':
-      newState = 'endNode';
-      break;
-    case 'endNode-1':
-      newState = 'stringNode';
-      break;
-    case 'endNode0':
-      newState = 'getTags';
-      break;
-    case 'getAttributesKey-1':
-    case 'getAttributesKey1':
-    case 'getAttributesKey7':
-    case 'getAttributesKey8':
-      newState = 'getAttributesKey';
-      break;
-    case 'getAttributesKey2':
-      newState = 'getAttributesValBegin';
-      break;
-    case 'getAttributesValBegin1':
-      newState = 'getAttributesValBegin';
-      break;
-    case 'getAttributesValBegin3':
-      newState = 'getAttributesVal';
-      break;
-    case 'getAttributesVal-1':
-    case 'getAttributesVal1':
-    case 'getAttributesVal7':
-    case 'getAttributesVal8':
-      newState = 'getAttributesVal';
-      break;
-    case 'getAttributesVal3':
-      newState = 'getNodeBegin';
-      break;
-    case 'stringNode0':
-      newState = 'getTags';
-      break;
-    case 'stringNode-1':
-    case 'stringNode1':
-    case 'stringNode2':
-    case 'stringNode3':
-    case 'stringNode4':
-    case 'stringNode5':
-    case 'stringNode6':
-    case 'stringNode7':
-    case 'stringNode8':
-      newState = 'stringNode';
+    default:
+      console.log(state);
       break;
   }
   return newState;
@@ -110,7 +119,7 @@ function transfer(oldstate) {
 
 function stateMachine(token, pos) {
   var prestate, _state;
-  _state = $$state = transfer($$state + pos);
+  _state = $$state = transfer($$state, pos);
   return _state;
 }
 

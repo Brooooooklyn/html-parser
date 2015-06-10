@@ -6,7 +6,7 @@ var basicSymbol = ['<', ' ', '=', '"', '\'', '>', '/', '!', '-'];
 var etSymbol = ['[', '#', ']'];
 var $$endStates = ['stringNode', 'endNode'];
 
-class EtParser{
+class EtParser {
   constructor(str) {
     var len, pos, i, token, _parser, _state;
     _parser = new Parser();

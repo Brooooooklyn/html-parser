@@ -65,14 +65,14 @@ define(['exports'], function (exports) {
               ion = div.children[2],
               divAttributes = div.attributes,
               spanAttributes = span.attributes;
-          expect(divAttributes[0].name).to.equal('class');
-          expect(divAttributes[0].val).to.equal('fool');
-          expect(divAttributes[1].name).to.equal('id');
-          expect(divAttributes[1].val).to.equal('sdsd');
-          expect(spanAttributes[0].name).to.equal('class');
-          expect(spanAttributes[0].val).to.equal('in-span item item-icon-left');
-          expect(spanAttributes[1].name).to.equal('id');
-          expect(spanAttributes[1].val).to.equal('hahaha');
+          expect(divAttributes['class'].name).to.equal('class');
+          expect(divAttributes['class'].val).to.equal('fool');
+          expect(divAttributes.id.name).to.equal('id');
+          expect(divAttributes.id.val).to.equal('sdsd');
+          expect(spanAttributes['class'].name).to.equal('class');
+          expect(spanAttributes['class'].val).to.equal('in-span item item-icon-left');
+          expect(spanAttributes.id.name).to.equal('id');
+          expect(spanAttributes.id.val).to.equal('hahaha');
 
           expect(ion.nodeName).to.equal('ion-list');
 

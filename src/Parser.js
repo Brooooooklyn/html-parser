@@ -10,7 +10,7 @@ class Parser {
       root: new TreeNode('root', 'root')
     };
     nodeStack = [];
-    attrStack = [];
+    attrStack = {};
     stringStack = [];
     commentStack = [];
     tokenStack = [];
@@ -78,7 +78,7 @@ class Parser {
       nodeStack.push(token);
     }else {
       let attributeVal = tokenStack.join(''),
-          lastId = attrStack.length - 1,
+          lastId = attrStack.lastId,
           attribute = attrStack[lastId];
       attribute.val = attributeVal;
       tokenStack = [];
@@ -96,7 +96,7 @@ class Parser {
         node = new TreeNode(nodeName, 1),
         tokenTree = this.tokenTree,
         lastNode = tokenTree[$$lastNodeId],
-        length, tempAttrStack;
+        length;
     $$lastId += 1;
     node.$$id = $$lastId;
     length = lastNode.children.length;
@@ -107,9 +107,9 @@ class Parser {
     }
     node.parent = lastNode;
     lastNode.children.push(node);
-    tempAttrStack = [];
-    node.attributes = tempAttrStack.concat(attrStack);
-    attrStack = [];
+    node.attributes = attrStack;
+    console.log(attrStack);
+    attrStack = {};
     tokenTree[$$lastId] = node;
     $$lastNodeId = $$lastId;
     nodeStack = [];
@@ -144,7 +144,8 @@ class Parser {
       let tokenTree = this.tokenTree,
           attrName = tokenStack.join(''),
           attr = new Attribute(attrName);
-      attrStack.push(attr);
+      attrStack[attrName] = attr;
+      attrStack.lastId = attrName;
       tokenStack = [];
     }
   }

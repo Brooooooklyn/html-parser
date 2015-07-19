@@ -108,7 +108,6 @@ class Parser {
     node.parent = lastNode;
     lastNode.children.push(node);
     node.attributes = attrStack;
-    console.log(attrStack);
     attrStack = {};
     tokenTree[$$lastId] = node;
     $$lastNodeId = $$lastId;
@@ -123,7 +122,7 @@ class Parser {
         parent;
     if(nodeName !== currentName) {
       console.log(this.tokenTree);
-      console.log('last node name: ' + nodeName);
+      console.log(`last node name:  + ${nodeName}`);
       console.log('current node name: ' + currentName);
       console.log('Tag\'s begin and tag\'s end not match, ignore this loop.');
     }else {

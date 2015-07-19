@@ -1,6 +1,13 @@
 class TreeNode{
 
-  constructor(nodeName, nodeType, parent = null, prev = null, next = null, $$id = 'root') {
+  constructor(
+    nodeName,
+    nodeType,
+    parent = null,
+    prev = null,
+    next = null,
+    $$id = 'root'
+  ) {
     this.nodeName = nodeName;
     this.nodeType = nodeType;
     this.parent = parent;

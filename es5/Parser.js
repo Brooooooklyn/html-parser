@@ -28,7 +28,7 @@ var Parser = (function () {
       root: new _TreeNode2['default']('root', 'root')
     };
     nodeStack = [];
-    attrStack = [];
+    attrStack = {};
     stringStack = [];
     commentStack = [];
     tokenStack = [];
@@ -104,7 +104,7 @@ var Parser = (function () {
         nodeStack.push(token);
       } else {
         var attributeVal = tokenStack.join(''),
-            lastId = attrStack.length - 1,
+            lastId = attrStack.lastId,
             attribute = attrStack[lastId];
         attribute.val = attributeVal;
         tokenStack = [];
@@ -124,8 +124,7 @@ var Parser = (function () {
           node = new _TreeNode2['default'](nodeName, 1),
           tokenTree = this.tokenTree,
           lastNode = tokenTree[$$lastNodeId],
-          length,
-          tempAttrStack;
+          length;
       $$lastId += 1;
       node.$$id = $$lastId;
       length = lastNode.children.length;
@@ -136,9 +135,9 @@ var Parser = (function () {
       }
       node.parent = lastNode;
       lastNode.children.push(node);
-      tempAttrStack = [];
-      node.attributes = tempAttrStack.concat(attrStack);
-      attrStack = [];
+      node.attributes = attrStack;
+      console.log(attrStack);
+      attrStack = {};
       tokenTree[$$lastId] = node;
       $$lastNodeId = $$lastId;
       nodeStack = [];
@@ -153,7 +152,7 @@ var Parser = (function () {
           parent;
       if (nodeName !== currentName) {
         console.log(this.tokenTree);
-        console.log('last node name: ' + nodeName);
+        console.log('last node name:  + ' + nodeName);
         console.log('current node name: ' + currentName);
         console.log('Tag\'s begin and tag\'s end not match, ignore this loop.');
       } else {
@@ -176,7 +175,8 @@ var Parser = (function () {
         var tokenTree = this.tokenTree,
             attrName = tokenStack.join(''),
             attr = new _Attribute2['default'](attrName);
-        attrStack.push(attr);
+        attrStack[attrName] = attr;
+        attrStack.lastId = attrName;
         tokenStack = [];
       }
     }

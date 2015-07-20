@@ -1,3 +1,3 @@
 # ET-Parser
 
-Parse string to virtual Dom tree.
+Parse string to AST.

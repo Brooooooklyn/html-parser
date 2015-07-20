@@ -8,7 +8,9 @@ define(['exports'], function (exports) {
   function ETSpec(Parser) {
     describe('Extend function test', function () {
       describe('ET Node compile test', function () {
-        it('Simple [#if] compile test', function () {});
+        it('Simple [#if] compile test', function () {
+          var str = '<>';
+        });
       });
     });
   }
@@ -57,7 +59,7 @@ define(['exports'], function (exports) {
         });
 
         it('Attributes compile test', function () {
-          var _str = '<div class= "fool" id = "sdsd">' + '<span class="in-span item item-icon-left" id="hahaha">123</span>' + '<time data-time="1023120231"></time>' + '<ion-list class="div2">' + '<span>123212</span>' + '<time>31212312312</time>' + '</ion-list>' + '</div>';
+          var _str = '<div class= "fool" id = "sdsd">\n                    <span class="in-span item item-icon-left" id="hahaha">123</span>\n                    <time data-time="1023120231"></time>\n                    <ion-list class="div2">\n                      <span>123212</span>\n                      <time>31212312312</time>\n                    </ion-list>\n                  </div>';
           var parser = new Parser(_str),
               ast = parser.tokenTree,
               div = ast[0],
@@ -86,7 +88,7 @@ define(['exports'], function (exports) {
         });
 
         it('Comment compile test', function () {
-          var _str = '<div class= "fool" id = "sdsd">' + '<!--12121 -->' + '<ion-list class="div2">' + '<span>123212</span>' + '<time>31212312312</time>' + '</ion-list>' + '</div>';
+          var _str = '<div class= "fool" id = "sdsd">\n                      <!--12121 -->\n                      <ion-list class="div2">\n                        <span>123212</span>\n                        <time>31212312312</time>\n                      </ion-list>\n                    </div>';
           var parser = new Parser(_str),
               ast = parser.tokenTree,
               div = ast[0],
@@ -96,7 +98,6 @@ define(['exports'], function (exports) {
 
           expect(comment.next.$$id).to.equal(2);
           expect(comment.prev).to.equal(null);
-          console.log(ast);
         });
       });
     });

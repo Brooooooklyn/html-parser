@@ -3,7 +3,7 @@ function basicSpec(Parser) {
   describe('public function test', function () {
     describe('Basic DOM compile test', function () {
       it('Simple div and string compile test', function () {
-        var str = '<div>123</div>',
+        var str = `<div>123</div>`,
             parser = new Parser(str),
             ast = parser.tokenTree,
             div, id, root;
@@ -35,14 +35,14 @@ function basicSpec(Parser) {
       });
 
       it('Attributes compile test', function () {
-        var _str ='<div class= "fool" id = "sdsd">'+
-                    '<span class="in-span item item-icon-left" id="hahaha">123</span>' +
-                    '<time data-time="1023120231"></time>' +
-                    '<ion-list class="div2">' +
-                      '<span>123212</span>' +
-                      '<time>31212312312</time>' +
-                    '</ion-list>' +
-                  '</div>';
+        var _str =`<div class= "fool" id = "sdsd">
+                    <span class="in-span item item-icon-left" id="hahaha">123</span>
+                    <time data-time="1023120231"></time>
+                    <ion-list class="div2">
+                      <span>123212</span>
+                      <time>31212312312</time>
+                    </ion-list>
+                  </div>`;
         var parser = new Parser(_str),
             ast = parser.tokenTree,
             div = ast[0],
@@ -71,13 +71,13 @@ function basicSpec(Parser) {
       });
 
       it('Comment compile test', function () {
-        var _str ='<div class= "fool" id = "sdsd">'+
-                    '<!--12121 -->' +
-                    '<ion-list class="div2">' +
-                      '<span>123212</span>' +
-                      '<time>31212312312</time>' +
-                    '</ion-list>' +
-                  '</div>';
+        var _str = `<div class= "fool" id = "sdsd">
+                      <!--12121 -->
+                      <ion-list class="div2">
+                        <span>123212</span>
+                        <time>31212312312</time>
+                      </ion-list>
+                    </div>`;
         var parser = new Parser(_str),
             ast = parser.tokenTree,
             div = ast[0],
@@ -87,7 +87,6 @@ function basicSpec(Parser) {
 
         expect(comment.next.$$id).to.equal(2);
         expect(comment.prev).to.equal(null);
-        console.log(ast);
 
       });
 

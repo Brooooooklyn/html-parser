@@ -1,8 +1,14 @@
 import TreeNode from 'TreeNode';
 import Attribute from 'Attribute';
 
-var nodeStack, attrStack, commentStack, stringStack, tokenStack, treeHead,
-    $$lastNodeId, $$lastId;
+var nodeStack,
+    attrStack,
+    commentStack,
+    stringStack,
+    tokenStack,
+    treeHead,
+    $$lastNodeId,
+    $$lastId;
 
 class Parser {
   constructor() {
@@ -70,7 +76,11 @@ class Parser {
   }
 
   stringNode(token) {
-    stringStack.push(token);
+    let charCode = token.charCodeAt(0);
+    //ignore '\n' and blankspace
+    if(charCode !== 32 && charCode !== 10) {
+      stringStack.push(token);
+    }
   }
 
   getNodeBegin(token) {

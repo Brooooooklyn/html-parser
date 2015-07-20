@@ -4,11 +4,12 @@ import stateMachine from 'StateMachine';
 
 var basicSymbol = ['<', ' ', '=', '"', '\'', '>', '/', '!', '-'];
 var etSymbol = ['[', '#', ']'];
+var ignoreSymbol = ['\n', '\r'];
 var $$endStates = ['stringNode', 'endNode'];
 
 class EtParser {
   constructor(str) {
-    var len, pos, i, token, _parser, _state;
+    var len, pos, i, token, _parser, _state, subpos;
     _parser = new Parser();
     if(!str) {
       return;
@@ -16,7 +17,12 @@ class EtParser {
     len = str.length;
     for(i = 0; i < len; i++) {
       token = str.charAt(i);
-      pos = basicSymbol.indexOf(token);
+      subpos = etSymbol.indexOf(token);
+      if(subpos !== -1) {
+
+      }else {
+        pos = basicSymbol.indexOf(token);
+      }
       _state = stateMachine(token, pos);
       if(_parser[_state]) {
         _parser[_state](token, pos);

@@ -59,7 +59,7 @@ define(['exports'], function (exports) {
         });
 
         it('Attributes compile test', function () {
-          var _str = '<div class= "fool" id = "sdsd">\n                    <span class="in-span item item-icon-left" id="hahaha">123</span>\n                    <time data-time="1023120231"></time>\n                    <ion-list class="div2">\n                      <span>123212</span>\n                      <time>31212312312</time>\n                    </ion-list>\n                  </div>';
+          var _str = '<div class= "fool" id = "sdsd">\n                    <span class="in-span item item-icon-left" id="hahaha">123</span>\n                    <time data-time="1023120231"></time>\n                    <ion-list class="div2">\n                      <span><123212></span>\n                      <time>22<222</time>\n                    </ion-list>\n                  </div>';
           var parser = new Parser(_str),
               ast = parser.tokenTree,
               div = ast[0],
@@ -77,14 +77,14 @@ define(['exports'], function (exports) {
           expect(spanAttributes.id.val).to.equal('hahaha');
 
           expect(ion.nodeName).to.equal('ion-list');
-
+          console.log(ion);
           expect(ion.children.length).to.equal(2);
           expect(ion.children[0].nodeName).to.equal('span');
-          expect(ion.children[0].children[0].content).to.equal('123212');
+          expect(ion.children[0].children[0].content).to.equal('<123212>');
 
           expect(ion.children[1].nodeName).to.equal('time');
           expect(ion.children[1].children[0].nodeType).to.equal(3);
-          expect(ion.children[1].children[0].content).to.equal('31212312312');
+          expect(ion.children[1].children[0].content).to.equal('22<222');
         });
 
         it('Comment compile test', function () {

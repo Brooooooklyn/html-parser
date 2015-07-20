@@ -15,8 +15,6 @@ var _Parser2 = _interopRequireDefault(_Parser);
 
 var _StateMachine = require('StateMachine');
 
-var _StateMachine2 = _interopRequireDefault(_StateMachine);
-
 var basicSymbol = ['<', ' ', '=', '"', '\'', '>', '/', '!', '-'];
 var etSymbol = ['[', '#', ']'];
 var $$endStates = ['stringNode', 'endNode'];
@@ -24,7 +22,7 @@ var $$endStates = ['stringNode', 'endNode'];
 var EtParser = function EtParser(str) {
   _classCallCheck(this, EtParser);
 
-  var len, pos, i, token, _parser, _state;
+  var len, pos, i, token, _parser, _state, subpos;
   _parser = new _Parser2['default']();
   if (!str) {
     return;
@@ -32,16 +30,19 @@ var EtParser = function EtParser(str) {
   len = str.length;
   for (i = 0; i < len; i++) {
     token = str.charAt(i);
-    pos = basicSymbol.indexOf(token);
-    _state = (0, _StateMachine2['default'])(token, pos);
+    subpos = etSymbol.indexOf(token);
+    if (subpos !== -1) {} else {
+      pos = basicSymbol.indexOf(token);
+    }
+    _state = (0, _StateMachine.stateMachine)(token, pos);
     if (_parser[_state]) {
       _parser[_state](token, pos);
-    } else {
-      console.log(token);
-    }
+    } else {}
   }
   return _parser;
 };
 
 exports['default'] = EtParser;
 module.exports = exports['default'];
+
+// console.log(token);

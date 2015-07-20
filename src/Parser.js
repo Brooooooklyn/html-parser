@@ -1,14 +1,18 @@
 import TreeNode from 'TreeNode';
 import Attribute from 'Attribute';
+import Utils from 'Utils';
+import {transferState} from 'StateMachine';
 
 var nodeStack,
     attrStack,
     commentStack,
     stringStack,
     tokenStack,
+    tempStack,
     treeHead,
     $$lastNodeId,
-    $$lastId;
+    $$lastId,
+    utils;
 
 class Parser {
   constructor() {
@@ -20,22 +24,48 @@ class Parser {
     stringStack = [];
     commentStack = [];
     tokenStack = [];
+    tempStack = [];
     treeHead = 'root';
     $$lastNodeId = 'root';
     $$lastId = -1;
+    utils = new Utils();
   }
   getTags() {
     var tokenTree = this.tokenTree,
         lastNode = tokenTree[$$lastNodeId];
+    if(nodeStack.length) {
+      nodeStack.unshift('<');
+      stringStack = utils.extend(nodeStack);
+      nodeStack = [];
+    }
     if(stringStack.length) {
       let str = stringStack.join(''),
-          node = new TreeNode('string', 3);
-      node.content = str;
-      node.parent = lastNode;
-      $$lastId += 1;
-      node.$$id = $$lastId;
-      tokenTree[$$lastId] = node;
-      lastNode.children.push(node);
+          node = new TreeNode('string', 3),
+          length, lastChild;
+
+      length = lastNode.children.length;
+      if(length) {
+        lastChild = lastNode.children[length - 1];
+        if(lastChild.nodeType === 3) {
+          lastChild.content = lastChild.content + str;
+        }else {
+          node.content = str;
+          node.parent = lastNode;
+          $$lastId += 1;
+          node.$$id = $$lastId;
+          tokenTree[$$lastId] = node;
+          lastNode.children.push(node);
+          lastChild.next = node;
+          node.prev = lastChild;
+        }
+      }else {
+        node.content = str;
+        node.parent = lastNode;
+        $$lastId += 1;
+        node.$$id = $$lastId;
+        tokenTree[$$lastId] = node;
+        lastNode.children.push(node);
+      }
       stringStack = [];
     }
   }
@@ -84,14 +114,21 @@ class Parser {
   }
 
   getNodeBegin(token) {
-    if(token !== '"') {
+    let charCode = token.charCodeAt(0);
+    if(
+      ((charCode >= 65 && charCode <= 122) ||
+      charCode === 45)
+    ) {
       nodeStack.push(token);
-    }else {
+    }else if(charCode === 34) {
       let attributeVal = tokenStack.join(''),
           lastId = attrStack.lastId,
           attribute = attrStack[lastId];
       attribute.val = attributeVal;
       tokenStack = [];
+    }else {
+      transferState('stringNode');
+      stringStack.push('<' + token);
     }
   }
 
@@ -143,7 +180,8 @@ class Parser {
   }
 
   getAttributesKey(token) {
-    if(token !== ' '){
+    let charCode = token.charCodeAt(0);
+    if(charCode !== 32){
       tokenStack.push(token);
     }
   }

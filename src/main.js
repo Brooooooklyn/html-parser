@@ -1,10 +1,9 @@
 /* jshint devel:true */
 import Parser from 'Parser';
-import stateMachine from 'StateMachine';
+import {stateMachine} from 'StateMachine';
 
 var basicSymbol = ['<', ' ', '=', '"', '\'', '>', '/', '!', '-'];
 var etSymbol = ['[', '#', ']'];
-var ignoreSymbol = ['\n', '\r'];
 var $$endStates = ['stringNode', 'endNode'];
 
 class EtParser {
@@ -27,7 +26,7 @@ class EtParser {
       if(_parser[_state]) {
         _parser[_state](token, pos);
       }else {
-        console.log(token);
+        // console.log(token);
       }
     }
     return _parser;

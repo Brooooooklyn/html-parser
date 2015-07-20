@@ -37,6 +37,9 @@ function transfer(state, pos) {
         case 8:
           newState = 'getNodeBegin';
           break;
+        case 0:
+          newState = 'getTags';
+          break;
         case 1:
           newState = 'getAttributesKey';
           break;
@@ -111,17 +114,21 @@ function transfer(state, pos) {
       }
       break;
     default:
-      console.log(state);
+      console.log($$state, state, pos);
       break;
   }
   return newState;
 }
 
 function stateMachine(token, pos) {
-  var prestate, _state;
+  var _state;
   _state = $$state = transfer($$state, pos);
   return _state;
 }
 
-exports['default'] = stateMachine;
+function transferState(newState) {
+  $$state = newState;
+}
+
+exports['default'] = { stateMachine: stateMachine, transferState: transferState };
 module.exports = exports['default'];

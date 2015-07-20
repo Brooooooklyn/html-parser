@@ -39,8 +39,8 @@ function basicSpec(Parser) {
                     <span class="in-span item item-icon-left" id="hahaha">123</span>
                     <time data-time="1023120231"></time>
                     <ion-list class="div2">
-                      <span>123212</span>
-                      <time>31212312312</time>
+                      <span><123212></span>
+                      <time>22<222</time>
                     </ion-list>
                   </div>`;
         var parser = new Parser(_str),
@@ -60,14 +60,14 @@ function basicSpec(Parser) {
         expect(spanAttributes.id.val).to.equal('hahaha');
 
         expect(ion.nodeName).to.equal('ion-list');
-
+        console.log(ion);
         expect(ion.children.length).to.equal(2);
         expect(ion.children[0].nodeName).to.equal('span');
-        expect(ion.children[0].children[0].content).to.equal('123212');
+        expect(ion.children[0].children[0].content).to.equal('<123212>');
 
         expect(ion.children[1].nodeName).to.equal('time');
         expect(ion.children[1].children[0].nodeType).to.equal(3);
-        expect(ion.children[1].children[0].content).to.equal('31212312312');
+        expect(ion.children[1].children[0].content).to.equal('22<222');
       });
 
       it('Comment compile test', function () {

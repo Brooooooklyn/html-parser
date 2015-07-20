@@ -18,7 +18,13 @@ var _Attribute = require('Attribute');
 
 var _Attribute2 = _interopRequireDefault(_Attribute);
 
-var nodeStack, attrStack, commentStack, stringStack, tokenStack, treeHead, $$lastNodeId, $$lastId;
+var _Utils = require('Utils');
+
+var _Utils2 = _interopRequireDefault(_Utils);
+
+var _StateMachine = require('StateMachine');
+
+var nodeStack, attrStack, commentStack, stringStack, tokenStack, tempStack, treeHead, $$lastNodeId, $$lastId, utils;
 
 var Parser = (function () {
   function Parser() {
@@ -32,9 +38,11 @@ var Parser = (function () {
     stringStack = [];
     commentStack = [];
     tokenStack = [];
+    tempStack = [];
     treeHead = 'root';
     $$lastNodeId = 'root';
     $$lastId = -1;
+    utils = new _Utils2['default']();
   }
 
   _createClass(Parser, [{
@@ -42,15 +50,40 @@ var Parser = (function () {
     value: function getTags() {
       var tokenTree = this.tokenTree,
           lastNode = tokenTree[$$lastNodeId];
+      if (nodeStack.length) {
+        nodeStack.unshift('<');
+        stringStack = utils.extend(nodeStack);
+        nodeStack = [];
+      }
       if (stringStack.length) {
         var str = stringStack.join(''),
-            node = new _TreeNode2['default']('string', 3);
-        node.content = str;
-        node.parent = lastNode;
-        $$lastId += 1;
-        node.$$id = $$lastId;
-        tokenTree[$$lastId] = node;
-        lastNode.children.push(node);
+            node = new _TreeNode2['default']('string', 3),
+            _length = undefined,
+            lastChild = undefined;
+
+        _length = lastNode.children.length;
+        if (_length) {
+          lastChild = lastNode.children[_length - 1];
+          if (lastChild.nodeType === 3) {
+            lastChild.content = lastChild.content + str;
+          } else {
+            node.content = str;
+            node.parent = lastNode;
+            $$lastId += 1;
+            node.$$id = $$lastId;
+            tokenTree[$$lastId] = node;
+            lastNode.children.push(node);
+            lastChild.next = node;
+            node.prev = lastChild;
+          }
+        } else {
+          node.content = str;
+          node.parent = lastNode;
+          $$lastId += 1;
+          node.$$id = $$lastId;
+          tokenTree[$$lastId] = node;
+          lastNode.children.push(node);
+        }
         stringStack = [];
       }
     }
@@ -95,19 +128,27 @@ var Parser = (function () {
   }, {
     key: 'stringNode',
     value: function stringNode(token) {
-      stringStack.push(token);
+      var charCode = token.charCodeAt(0);
+      //ignore '\n' and blankspace
+      if (charCode !== 32 && charCode !== 10) {
+        stringStack.push(token);
+      }
     }
   }, {
     key: 'getNodeBegin',
     value: function getNodeBegin(token) {
-      if (token !== '"') {
+      var charCode = token.charCodeAt(0);
+      if (charCode >= 65 && charCode <= 122 || charCode === 45) {
         nodeStack.push(token);
-      } else {
+      } else if (charCode === 34) {
         var attributeVal = tokenStack.join(''),
             lastId = attrStack.lastId,
             attribute = attrStack[lastId];
         attribute.val = attributeVal;
         tokenStack = [];
+      } else {
+        (0, _StateMachine.transferState)('stringNode');
+        stringStack.push('<' + token);
       }
     }
   }, {
@@ -136,7 +177,6 @@ var Parser = (function () {
       node.parent = lastNode;
       lastNode.children.push(node);
       node.attributes = attrStack;
-      console.log(attrStack);
       attrStack = {};
       tokenTree[$$lastId] = node;
       $$lastNodeId = $$lastId;
@@ -164,7 +204,8 @@ var Parser = (function () {
   }, {
     key: 'getAttributesKey',
     value: function getAttributesKey(token) {
-      if (token !== ' ') {
+      var charCode = token.charCodeAt(0);
+      if (charCode !== 32) {
         tokenStack.push(token);
       }
     }

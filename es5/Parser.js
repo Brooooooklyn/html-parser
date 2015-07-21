@@ -26,6 +26,8 @@ var _StateMachine = require('StateMachine');
 
 var nodeStack, attrStack, commentStack, stringStack, tokenStack, tempStack, treeHead, $$lastNodeId, $$lastId, utils;
 
+var selfClosedTags = ['area', 'base', 'br', 'col', 'command', 'embed', 'hr', 'img', 'input', 'keygen', 'link', 'meta', 'param', 'source', 'track', 'wbr'];
+
 var Parser = (function () {
   function Parser() {
     _classCallCheck(this, Parser);
@@ -181,6 +183,10 @@ var Parser = (function () {
       tokenTree[$$lastId] = node;
       $$lastNodeId = $$lastId;
       nodeStack = [];
+
+      if (selfClosedTags.indexOf(nodeName) !== -1) {
+        $$lastNodeId = lastNode.$$id;
+      }
     }
   }, {
     key: 'endNode',

@@ -77,7 +77,6 @@ define(['exports'], function (exports) {
           expect(spanAttributes.id.val).to.equal('hahaha');
 
           expect(ion.nodeName).to.equal('ion-list');
-          console.log(ion);
           expect(ion.children.length).to.equal(2);
           expect(ion.children[0].nodeName).to.equal('span');
           expect(ion.children[0].children[0].content).to.equal('<123212>');
@@ -98,6 +97,20 @@ define(['exports'], function (exports) {
 
           expect(comment.next.$$id).to.equal(2);
           expect(comment.prev).to.equal(null);
+        });
+
+        it('Self closed tags test', function () {
+          var _str = '<div class="div">\n                      <input>\n                      321\n                      <span>123</span>\n                    </div>';
+          var parser = new Parser(_str),
+              ast = parser.tokenTree,
+              div = ast[0],
+              input = ast[1];
+
+          expect(div.children.length).to.equal(3);
+          expect(div.children[0]).to.equal(input);
+          expect(div.children[0].next.nodeType).to.equal(3);
+          expect(div.children[0].next.content).to.equal('321');
+          expect(div.children[0].next.next).to.equal(ast[3]);
         });
       });
     });

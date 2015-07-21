@@ -14,6 +14,25 @@ var nodeStack,
     $$lastId,
     utils;
 
+var selfClosedTags = [
+  'area',
+  'base',
+  'br',
+  'col',
+  'command',
+  'embed',
+  'hr',
+  'img',
+  'input',
+  'keygen',
+  'link',
+  'meta',
+  'param',
+  'source',
+  'track',
+  'wbr'
+];
+
 class Parser {
   constructor() {
     this.tokenTree = {
@@ -159,6 +178,10 @@ class Parser {
     tokenTree[$$lastId] = node;
     $$lastNodeId = $$lastId;
     nodeStack = [];
+
+    if(selfClosedTags.indexOf(nodeName) !== -1) {
+      $$lastNodeId = lastNode.$$id;
+    }
   }
 
   endNode() {

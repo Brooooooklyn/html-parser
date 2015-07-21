@@ -9,7 +9,8 @@ define(['exports'], function (exports) {
     describe('Extend function test', function () {
       describe('ET Node compile test', function () {
         it('Simple [#if] compile test', function () {
-          var str = '<>';
+          var str = '[#if it.isTrue] <div>123</div>[/#if]';
+          // var parser = new Parser(str);
         });
       });
     });
@@ -100,13 +101,12 @@ define(['exports'], function (exports) {
         });
 
         it('Self closed tags test', function () {
-          var _str = '<div class="div">\n                      <input>\n                      321\n                      <span>123</span>\n                    </div>';
+          var _str = '<div class="div">\n                      <input>\n                      321\n                      <span>123</span>\n                      <br/>\n                      <br>\n                      <br/>\n                    </div>';
           var parser = new Parser(_str),
               ast = parser.tokenTree,
               div = ast[0],
               input = ast[1];
-
-          expect(div.children.length).to.equal(3);
+          expect(div.children.length).to.equal(6);
           expect(div.children[0]).to.equal(input);
           expect(div.children[0].next.nodeType).to.equal(3);
           expect(div.children[0].next.content).to.equal('321');

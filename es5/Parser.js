@@ -26,6 +26,7 @@ var _StateMachine = require('StateMachine');
 
 var nodeStack, attrStack, commentStack, stringStack, tokenStack, tempStack, treeHead, $$lastNodeId, $$lastId, utils;
 
+var utils = new _Utils2['default']();
 var selfClosedTags = ['area', 'base', 'br', 'col', 'command', 'embed', 'hr', 'img', 'input', 'keygen', 'link', 'meta', 'param', 'source', 'track', 'wbr'];
 
 var Parser = (function () {
@@ -44,7 +45,7 @@ var Parser = (function () {
     treeHead = 'root';
     $$lastNodeId = 'root';
     $$lastId = -1;
-    utils = new _Utils2['default']();
+    (0, _StateMachine.transferState)('stringNode');
   }
 
   _createClass(Parser, [{
@@ -183,7 +184,9 @@ var Parser = (function () {
       tokenTree[$$lastId] = node;
       $$lastNodeId = $$lastId;
       nodeStack = [];
-
+      /**
+       * 如果是自闭和标签，直接闭合
+       */
       if (selfClosedTags.indexOf(nodeName) !== -1) {
         $$lastNodeId = lastNode.$$id;
       }

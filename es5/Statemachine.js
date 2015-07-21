@@ -46,6 +46,9 @@ function transfer(state, pos) {
         case 5:
           newState = 'buildNode';
           break;
+        case 6:
+          newState = 'buildNode';
+          break;
       }
       break;
     case 'getNodeName':

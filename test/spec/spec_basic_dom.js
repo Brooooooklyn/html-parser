@@ -94,17 +94,20 @@ function basicSpec(Parser) {
                       <input>
                       321
                       <span>123</span>
+                      <br/>
+                      <br>
+                      <br/>
                     </div>`;
         var parser = new Parser(_str),
             ast = parser.tokenTree,
             div = ast[0],
             input = ast[1];
-
-        expect(div.children.length).to.equal(3);
+        expect(div.children.length).to.equal(6);
         expect(div.children[0]).to.equal(input);
         expect(div.children[0].next.nodeType).to.equal(3);
         expect(div.children[0].next.content).to.equal('321');
         expect(div.children[0].next.next).to.equal(ast[3]);
+
       });
 
     });

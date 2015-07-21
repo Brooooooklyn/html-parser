@@ -31,7 +31,9 @@ var EtParser = function EtParser(str) {
   for (i = 0; i < len; i++) {
     token = str.charAt(i);
     subpos = etSymbol.indexOf(token);
-    if (subpos !== -1) {} else {
+    if (subpos !== -1) {
+      console.log(token);
+    } else {
       pos = basicSymbol.indexOf(token);
     }
     _state = (0, _StateMachine.stateMachine)(token, pos);

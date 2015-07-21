@@ -14,6 +14,7 @@ var nodeStack,
     $$lastId,
     utils;
 
+var utils = new Utils();
 var selfClosedTags = [
   'area',
   'base',
@@ -47,7 +48,7 @@ class Parser {
     treeHead = 'root';
     $$lastNodeId = 'root';
     $$lastId = -1;
-    utils = new Utils();
+    transferState('stringNode');
   }
   getTags() {
     var tokenTree = this.tokenTree,
@@ -158,8 +159,11 @@ class Parser {
   }
 
   buildNode() {
-    var nodeName = nodeStack.join(''),
-        node = new TreeNode(nodeName, 1),
+    var nodeName = nodeStack.join('');
+    if(!nodeName) {
+      return;
+    }
+    var node = new TreeNode(nodeName, 1),
         tokenTree = this.tokenTree,
         lastNode = tokenTree[$$lastNodeId],
         length;
@@ -178,7 +182,9 @@ class Parser {
     tokenTree[$$lastId] = node;
     $$lastNodeId = $$lastId;
     nodeStack = [];
-
+    /**
+     * 如果是自闭和标签，直接闭合
+     */
     if(selfClosedTags.indexOf(nodeName) !== -1) {
       $$lastNodeId = lastNode.$$id;
     }
@@ -204,7 +210,7 @@ class Parser {
 
   getAttributesKey(token) {
     let charCode = token.charCodeAt(0);
-    if(charCode !== 32){
+    if(charCode !== 32) {
       tokenStack.push(token);
     }
   }

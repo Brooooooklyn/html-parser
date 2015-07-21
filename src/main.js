@@ -18,7 +18,7 @@ class EtParser {
       token = str.charAt(i);
       subpos = etSymbol.indexOf(token);
       if(subpos !== -1) {
-
+        console.log(token);
       }else {
         pos = basicSymbol.indexOf(token);
       }

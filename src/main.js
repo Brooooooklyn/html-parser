@@ -1,9 +1,12 @@
 /* jshint devel:true */
+'use strict';
+
 import Parser from 'Parser';
-import {stateMachine} from 'StateMachine';
+import * as machine from 'StateMachine';
+import * as submachine from 'SubStateMachine';
 
 var basicSymbol = ['<', ' ', '=', '"', '\'', '>', '/', '!', '-'];
-var etSymbol = ['[', '#', ']'];
+var etSymbol = ['{', '['];
 var $$endStates = ['stringNode', 'endNode'];
 
 class EtParser {
@@ -22,7 +25,7 @@ class EtParser {
       }else {
         pos = basicSymbol.indexOf(token);
       }
-      _state = stateMachine(token, pos);
+      _state = machine.stateMachine(token, pos);
       if(_parser[_state]) {
         _parser[_state](token, pos);
       }else {

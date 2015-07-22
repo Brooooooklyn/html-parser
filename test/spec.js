@@ -10,7 +10,7 @@ define(['exports'], function (exports) {
       describe('ET Node compile test', function () {
         it('Simple [#if] compile test', function () {
           var str = '[#if it.isTrue] <div>123</div>[/#if]';
-          // var parser = new Parser(str);
+          var parser = new Parser(str);
         });
       });
     });
@@ -18,6 +18,8 @@ define(['exports'], function (exports) {
   exports.ETSpec = ETSpec;
 
   /* global describe, it, expect */
+  'use strict';
+
   function basicSpec(Parser) {
     describe('public function test', function () {
       describe('Basic DOM compile test', function () {

@@ -1,4 +1,6 @@
 /* global describe, it, expect */
+'use strict';
+
 function basicSpec(Parser) {
   describe('public function test', function () {
     describe('Basic DOM compile test', function () {

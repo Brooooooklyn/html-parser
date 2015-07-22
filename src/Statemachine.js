@@ -1,3 +1,5 @@
+'use strict';
+
 var $$state = 'stringNode';
 
 function transfer(state, pos) {

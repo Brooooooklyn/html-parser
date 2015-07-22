@@ -61,6 +61,8 @@ function transfer(state, pos) {
         newState = 'getTags';
       } else if (pos === -1) {
         newState = 'stringNode';
+      } else if (pos === 5) {
+        newState = 'buildNode';
       }
       break;
     case 'getEndNode':

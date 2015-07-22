@@ -164,8 +164,11 @@ var Parser = (function () {
   }, {
     key: 'buildNode',
     value: function buildNode() {
-      var nodeName = nodeStack.join(''),
-          node = new _TreeNode2['default'](nodeName, 1),
+      var nodeName = nodeStack.join('');
+      if (!nodeName) {
+        return;
+      }
+      var node = new _TreeNode2['default'](nodeName, 1),
           tokenTree = this.tokenTree,
           lastNode = tokenTree[$$lastNodeId],
           length;

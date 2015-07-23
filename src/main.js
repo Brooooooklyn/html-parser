@@ -3,10 +3,8 @@
 
 import Parser from 'Parser';
 import * as machine from 'StateMachine';
-import * as submachine from 'SubStateMachine';
+import * as submachine from 'ETStateMachine';
 
-var basicSymbol = ['<', ' ', '=', '"', '\'', '>', '/', '!', '-'];
-var etSymbol = ['{', '['];
 var $$endStates = ['stringNode', 'endNode'];
 
 class EtParser {
@@ -19,13 +17,7 @@ class EtParser {
     len = str.length;
     for(i = 0; i < len; i++) {
       token = str.charAt(i);
-      subpos = etSymbol.indexOf(token);
-      if(subpos !== -1) {
-        console.log(token);
-      }else {
-        pos = basicSymbol.indexOf(token);
-      }
-      _state = machine.stateMachine(token, pos);
+      _state = machine.stateMachine(token);
       if(_parser[_state]) {
         _parser[_state](token, pos);
       }else {

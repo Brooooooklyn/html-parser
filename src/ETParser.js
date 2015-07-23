@@ -1,6 +1,6 @@
 'use strict';
 
-import {transferState} from 'SubStateMachine';
+import {transferState} from 'ETStateMachine';
 
 var tokenStack,
     nodeStack,

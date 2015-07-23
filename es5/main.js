@@ -19,12 +19,10 @@ var _StateMachine = require('StateMachine');
 
 var machine = _interopRequireWildcard(_StateMachine);
 
-var _SubStateMachine = require('SubStateMachine');
+var _ETStateMachine = require('ETStateMachine');
 
-var submachine = _interopRequireWildcard(_SubStateMachine);
+var submachine = _interopRequireWildcard(_ETStateMachine);
 
-var basicSymbol = ['<', ' ', '=', '"', '\'', '>', '/', '!', '-'];
-var etSymbol = ['{', '['];
 var $$endStates = ['stringNode', 'endNode'];
 
 var EtParser = function EtParser(str) {
@@ -38,13 +36,7 @@ var EtParser = function EtParser(str) {
   len = str.length;
   for (i = 0; i < len; i++) {
     token = str.charAt(i);
-    subpos = etSymbol.indexOf(token);
-    if (subpos !== -1) {
-      console.log(token);
-    } else {
-      pos = basicSymbol.indexOf(token);
-    }
-    _state = machine.stateMachine(token, pos);
+    _state = machine.stateMachine(token);
     if (_parser[_state]) {
       _parser[_state](token, pos);
     } else {}

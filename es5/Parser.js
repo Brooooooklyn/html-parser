@@ -45,7 +45,7 @@ var Parser = (function () {
     treeHead = 'root';
     $$lastNodeId = 'root';
     $$lastId = -1;
-    (0, _StateMachine.transferState)('stringNode');
+    (0, _StateMachine.transferState)('stringNode', 'html');
   }
 
   _createClass(Parser, [{

@@ -48,7 +48,7 @@ class Parser {
     treeHead = 'root';
     $$lastNodeId = 'root';
     $$lastId = -1;
-    transferState('stringNode');
+    transferState('stringNode', 'html');
   }
   getTags() {
     var tokenTree = this.tokenTree,

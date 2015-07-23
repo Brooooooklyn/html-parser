@@ -3,7 +3,17 @@
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj['default'] = obj; return newObj; } }
+
+var _ETStateMachine = require('ETStateMachine');
+
+var submachine = _interopRequireWildcard(_ETStateMachine);
+
 var $$state = 'stringNode';
+var $$ctrl = 'html';
+var basicSymbol = ['<', ' ', '=', '"', '\'', '>', '/', '!', '-'];
+var etStart = ['{', '['];
 
 function transfer(state, pos) {
   var newState;
@@ -125,14 +135,28 @@ function transfer(state, pos) {
   return newState;
 }
 
-function stateMachine(token, pos) {
+function stateMachine(token) {
   var _state;
-  _state = $$state = transfer($$state, pos);
-  return _state;
+  var pos;
+  if ($$ctrl === 'et') {
+    return submachine.stateMachine(token);
+  } else if ($$ctrl === 'html') {
+    var etPos = undefined;
+    pos = basicSymbol.indexOf(token);
+    $$state = transfer($$state, pos);
+    etPos = etStart.indexOf(token);
+    if (etPos !== -1) {
+      $$ctrl = 'et';
+    }
+  }
+  return $$state;
 }
 
-function transferState(newState) {
+function transferState(newState, ctrl) {
   $$state = newState;
+  if (ctrl) {
+    $$ctrl = ctrl;
+  }
 }
 
 exports['default'] = { stateMachine: stateMachine, transferState: transferState };

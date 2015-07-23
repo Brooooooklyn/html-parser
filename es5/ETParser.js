@@ -2,7 +2,7 @@
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-var _SubStateMachine = require('SubStateMachine');
+var _ETStateMachine = require('ETStateMachine');
 
 var tokenStack, nodeStack, expressionStack;
 

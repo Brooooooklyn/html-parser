@@ -2,6 +2,7 @@
 'use strict';
 
 import Parser from 'Parser';
+import SubParser from 'ETParser';
 import * as machine from 'StateMachine';
 import * as submachine from 'ETStateMachine';
 
@@ -9,8 +10,9 @@ var $$endStates = ['stringNode', 'endNode'];
 
 class EtParser {
   constructor(str) {
-    var len, pos, i, token, _parser, _state, subpos;
+    let len, pos, i, token, _parser, _subParser , _state, subpos;
     _parser = new Parser();
+    _subParser = new SubParser();
     if(!str) {
       return;
     }
@@ -20,8 +22,10 @@ class EtParser {
       _state = machine.stateMachine(token);
       if(_parser[_state]) {
         _parser[_state](token, pos);
+      }else if(_subParser[_state]) {
+        _subParser[_state](token);
       }else {
-        // console.log(token);
+        // console.log(_state);
       }
     }
     return _parser;

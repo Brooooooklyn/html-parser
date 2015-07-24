@@ -15,6 +15,10 @@ var _Parser = require('Parser');
 
 var _Parser2 = _interopRequireDefault(_Parser);
 
+var _ETParser = require('ETParser');
+
+var _ETParser2 = _interopRequireDefault(_ETParser);
+
 var _StateMachine = require('StateMachine');
 
 var machine = _interopRequireWildcard(_StateMachine);
@@ -28,8 +32,16 @@ var $$endStates = ['stringNode', 'endNode'];
 var EtParser = function EtParser(str) {
   _classCallCheck(this, EtParser);
 
-  var len, pos, i, token, _parser, _state, subpos;
+  var len = undefined,
+      pos = undefined,
+      i = undefined,
+      token = undefined,
+      _parser = undefined,
+      _subParser = undefined,
+      _state = undefined,
+      subpos = undefined;
   _parser = new _Parser2['default']();
+  _subParser = new _ETParser2['default']();
   if (!str) {
     return;
   }
@@ -39,6 +51,8 @@ var EtParser = function EtParser(str) {
     _state = machine.stateMachine(token);
     if (_parser[_state]) {
       _parser[_state](token, pos);
+    } else if (_subParser[_state]) {
+      _subParser[_state](token);
     } else {}
   }
   return _parser;
@@ -47,4 +61,4 @@ var EtParser = function EtParser(str) {
 exports['default'] = EtParser;
 module.exports = exports['default'];
 
-// console.log(token);
+// console.log(_state);

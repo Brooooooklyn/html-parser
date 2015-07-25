@@ -15,7 +15,7 @@ var $$ctrl = 'html';
 var basicSymbol = ['<', ' ', '=', '"', '\'', '>', '/', '!', '-'];
 var etStart = ['{', '['];
 
-function transfer(state, pos) {
+var transfer = function transfer(state, pos) {
   var newState;
   switch (state) {
     case 'getTags':
@@ -51,7 +51,7 @@ function transfer(state, pos) {
           newState = 'getTags';
           break;
         case 1:
-          newState = 'getAttributesKey';
+          newState = 'getAttributesKeyBegein';
           break;
         case 5:
           newState = 'buildNode';
@@ -89,13 +89,30 @@ function transfer(state, pos) {
         newState = 'getTags';
       }
       break;
-    case 'getAttributesKey':
+    case 'getAttributesKeyBegein':
       switch (pos) {
-        case -1:
         case 1:
+          newState = 'getAttributesKeyBegein';
+          break;
+        case 2:
+          newState = 'getAttributesValBegin';
+          break;
+        case -1:
         case 7:
         case 8:
           newState = 'getAttributesKey';
+          break;
+      }
+      break;
+    case 'getAttributesKey':
+      switch (pos) {
+        case -1:
+        case 7:
+        case 8:
+          newState = 'getAttributesKey';
+          break;
+        case 1:
+          newState = 'getAttributesKeyBegein';
           break;
         case 2:
           newState = 'getAttributesValBegin';
@@ -133,31 +150,41 @@ function transfer(state, pos) {
       break;
   }
   return newState;
-}
+};
 
-function stateMachine(token) {
+var stateMachine = function stateMachine(token) {
   var _state;
   var pos;
   if ($$ctrl === 'et') {
-    return submachine.stateMachine(token);
+    var ETState = submachine.stateMachine(token);
+    console.log(ETState);
+    return ETState;
   } else if ($$ctrl === 'html') {
     var etPos = undefined;
-    pos = basicSymbol.indexOf(token);
-    $$state = transfer($$state, pos);
     etPos = etStart.indexOf(token);
     if (etPos !== -1) {
       $$ctrl = 'et';
+      submachine.transferState('getNode');
+      console.log($$state);
+      return $$state;
     }
+    pos = basicSymbol.indexOf(token);
+    $$state = transfer($$state, pos);
+    console.log($$state);
+    return $$state;
   }
-  return $$state;
-}
+};
 
-function transferState(newState, ctrl) {
+var transferState = function transferState(newState, ctrl) {
   $$state = newState;
-  if (ctrl) {
+  if (ctrl === 'html' || ctrl === 'et') {
     $$ctrl = ctrl;
   }
-}
+};
 
-exports['default'] = { stateMachine: stateMachine, transferState: transferState };
+var readState = function readState() {
+  return $$state;
+};
+
+exports['default'] = { stateMachine: stateMachine, transferState: transferState, readState: readState };
 module.exports = exports['default'];

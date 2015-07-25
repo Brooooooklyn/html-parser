@@ -37,7 +37,21 @@ function basicSpec(Parser) {
       });
 
       it('Attributes compile test', function () {
-        var _str =`<div class= "fool" id = "sdsd">
+        var _str = `<div class="fool around and fall  in love" x-ac id = "this-love"></div>`;
+        var parser = new Parser(_str),
+            ast = parser.tokenTree,
+            node = ast[0];
+        expect(node.nodeName).to.equal('div');
+        expect(node.nodeType).to.equal(1);
+
+        var attributes = node.attributes;
+        expect(attributes.class.val).to.equal('fool around and fall  in love');
+        expect(attributes['x-ac'].val).to.equal(undefined);
+        expect(attributes.id.val).to.equal('this-love');
+      });
+
+      it('Complicated Attributes compile test', function () {
+        var _str =`<div class= "fool" x-ac id = "sdsd">
                     <span class="in-span item item-icon-left" id="hahaha">123</span>
                     <time data-time="1023120231"></time>
                     <ion-list class="div2">
@@ -52,6 +66,7 @@ function basicSpec(Parser) {
             ion = div.children[2],
             divAttributes = div.attributes,
             spanAttributes = span.attributes;
+
         expect(divAttributes.class.name).to.equal('class');
         expect(divAttributes.class.val).to.equal('fool');
         expect(divAttributes.id.name).to.equal('id');

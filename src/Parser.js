@@ -197,15 +197,27 @@ class Parser {
         currentName = currentNode.nodeName,
         parent;
     if(nodeName !== currentName) {
-      console.log(this.tokenTree);
-      console.log(`last node name:  + ${nodeName}`);
-      console.log('current node name: ' + currentName);
-      console.log('Tag\'s begin and tag\'s end not match, ignore this loop.');
+      // console.log(this.tokenTree);
+      // console.log(`last node name:  + ${nodeName}`);
+      // console.log('current node name: ' + currentName);
+      // console.log('Tag\'s begin and tag\'s end not match, ignore this loop.');
     }else {
       nodeStack = [];
       parent = tokenTree[$$lastNodeId].parent;
       $$lastNodeId = parent.$$id;
     }
+  }
+
+  getAttributesKeyBegein() {
+    let attrName = tokenStack.join(''),
+        attr;
+    if(!attrName) {
+      return;
+    }
+    attr = new Attribute(attrName);
+    attrStack[attrName] = attr;
+    attrStack.lastId = attrName;
+    tokenStack = [];
   }
 
   getAttributesKey(token) {
@@ -217,9 +229,12 @@ class Parser {
 
   getAttributesValBegin(token) {
     if (token !== ' ') {
-      let tokenTree = this.tokenTree,
-          attrName = tokenStack.join(''),
-          attr = new Attribute(attrName);
+      let attrName = tokenStack.join(''),
+          attr;
+      if(!attrName) {
+        return;
+      }
+      attr = new Attribute(attrName);
       attrStack[attrName] = attr;
       attrStack.lastId = attrName;
       tokenStack = [];

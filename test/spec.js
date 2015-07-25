@@ -8,8 +8,23 @@ define(['exports'], function (exports) {
   function ETSpec(Parser) {
     describe('Extend function test', function () {
       describe('ET Node compile test', function () {
-        it('Simple [#if] compile test', function () {
+        it('Simple if compile test', function () {
           var str = '[#if it.isTrue] <div>123</div>[/#if]';
+          var parser = new Parser(str);
+        });
+
+        it('IF-NODE in attribute compile test', function () {
+          var str = '<div class="div [#if it.isTrue]hello[/#if]">123</div>';
+          var parser = new Parser(str);
+        });
+
+        it('Simple FOR-NODE test', function () {
+          var str = '[#for item in it.list]\n                    <div class="div hello">123</div>\n                   [/#for]';
+          var parser = new Parser(str);
+        });
+
+        it('Simple VALUE BIND test', function () {
+          var str = '<div class="div hello">123{{it.val}}</div>';
           var parser = new Parser(str);
         });
       });
@@ -62,7 +77,21 @@ define(['exports'], function (exports) {
         });
 
         it('Attributes compile test', function () {
-          var _str = '<div class= "fool" id = "sdsd">\n                    <span class="in-span item item-icon-left" id="hahaha">123</span>\n                    <time data-time="1023120231"></time>\n                    <ion-list class="div2">\n                      <span><123212></span>\n                      <time>22<222</time>\n                    </ion-list>\n                  </div>';
+          var _str = '<div class="fool around and fall  in love" x-ac id = "this-love"></div>';
+          var parser = new Parser(_str),
+              ast = parser.tokenTree,
+              node = ast[0];
+          expect(node.nodeName).to.equal('div');
+          expect(node.nodeType).to.equal(1);
+
+          var attributes = node.attributes;
+          expect(attributes['class'].val).to.equal('fool around and fall  in love');
+          expect(attributes['x-ac'].val).to.equal(undefined);
+          expect(attributes.id.val).to.equal('this-love');
+        });
+
+        it('Complicated Attributes compile test', function () {
+          var _str = '<div class= "fool" x-ac id = "sdsd">\n                    <span class="in-span item item-icon-left" id="hahaha">123</span>\n                    <time data-time="1023120231"></time>\n                    <ion-list class="div2">\n                      <span><123212></span>\n                      <time>22<222</time>\n                    </ion-list>\n                  </div>';
           var parser = new Parser(_str),
               ast = parser.tokenTree,
               div = ast[0],
@@ -70,6 +99,7 @@ define(['exports'], function (exports) {
               ion = div.children[2],
               divAttributes = div.attributes,
               spanAttributes = span.attributes;
+
           expect(divAttributes['class'].name).to.equal('class');
           expect(divAttributes['class'].val).to.equal('fool');
           expect(divAttributes.id.name).to.equal('id');

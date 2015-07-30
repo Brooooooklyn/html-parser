@@ -30,6 +30,13 @@ function ETSpec(Parser) {
 
       });
 
+      it('for loop', function() {
+        var str = `[#for item, index in it.matrix[it.members[1]]]
+                    it is for loop {{index}}
+                   [/#for]`;
+        var parser = new Parser(str);
+      });
+
     });
   });
 }

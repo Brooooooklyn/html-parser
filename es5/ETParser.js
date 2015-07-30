@@ -10,7 +10,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var _StateMachine = require('StateMachine');
 
-var tokenStack, nodeStack, expressionStack;
+var tokenStack, nodeStack, endValStack, expressionStack;
 
 var expression = ['if', 'else', '&&', '||', 'for', 'in', ','];
 
@@ -20,6 +20,7 @@ var ETParser = (function () {
 
     tokenStack = [];
     nodeStack = [];
+    endValStack = [];
     expressionStack = [];
   }
 
@@ -34,7 +35,9 @@ var ETParser = (function () {
     value: function waitExpr() {}
   }, {
     key: 'readExpr',
-    value: function readExpr() {}
+    value: function readExpr(token) {
+      tokenStack.push(token);
+    }
   }, {
     key: 'etEndNode',
     value: function etEndNode() {
@@ -49,6 +52,15 @@ var ETParser = (function () {
     value: function buildET() {
       console.log('buildET', (0, _StateMachine.readState)());
       (0, _StateMachine.transferState)((0, _StateMachine.readState)(), 'html');
+    }
+  }, {
+    key: 'endValueBind',
+    value: function endValueBind(token) {
+      endValStack.push(token);
+      if (endValStack.length === 2 && endValStack[0] === '}' && endValStack[1] === '}') {
+        (0, _StateMachine.transferState)((0, _StateMachine.readState)(), 'html');
+        endValStack = [];
+      }
     }
   }]);
 

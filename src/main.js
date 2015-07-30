@@ -20,7 +20,6 @@ class EtParser {
     for(i = 0; i < len; i++) {
       token = str.charAt(i);
       _state = machine.stateMachine(token);
-      // console.log(_state);
       if(_parser[_state]) {
         _parser[_state](token, pos);
       }else if(_subParser[_state]) {

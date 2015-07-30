@@ -27,6 +27,11 @@ define(['exports'], function (exports) {
           var str = '<div class="div hello">123{{it.val}}</div>';
           var parser = new Parser(str);
         });
+
+        it('for loop', function () {
+          var str = '[#for item, index in it.matrix[it.members[1]]]\n                    it is for loop {{index}}\n                   [/#for]';
+          var parser = new Parser(str);
+        });
       });
     });
   }

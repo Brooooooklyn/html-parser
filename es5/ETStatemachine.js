@@ -4,7 +4,7 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 });
 var $$state = 'getNode';
-var symbol = [']', '{', '}', '#', ' ', '/', '['];
+var symbol = [']', '{', '}', '#', ' ', '/'];
 
 var transfer = function transfer(state, pos) {
   var newState = undefined;
@@ -58,9 +58,6 @@ var transfer = function transfer(state, pos) {
           break;
         case 4:
           newState = 'waitExpr';
-          break;
-        case 6:
-          newState = 'readSquare';
           break;
         default:
           newState = 'readExpr';

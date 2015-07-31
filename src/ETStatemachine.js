@@ -1,7 +1,7 @@
 'use strict';
 
 var $$state = 'getNode';
-var symbol  = [']', '{', '}', '#', ' ', '/', '['];
+var symbol  = [']', '{', '}', '#', ' ', '/'];
 
 var transfer = (state, pos) => {
   let newState;
@@ -55,9 +55,6 @@ var transfer = (state, pos) => {
           break;
         case 4:
           newState = 'waitExpr';
-          break;
-        case 6:
-          newState = 'readSquare';
           break;
         default:
           newState = 'readExpr';

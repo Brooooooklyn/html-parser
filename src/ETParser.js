@@ -1,12 +1,13 @@
 'use strict';
 
-import {transferState} from 'StateMachine';
-import {readState} from 'StateMachine';
+import {transferState, readState} from 'StateMachine';
+import * as submachine from 'ETStateMachine';
 
 var tokenStack,
     nodeStack,
     endValStack,
-    expressionStack;
+    expressionStack,
+    squareCount;
 
 var expression = ['if', 'else', '&&', '||', 'for', 'in', ','];
 
@@ -17,6 +18,7 @@ class ETParser {
     nodeStack = [];
     endValStack = [];
     expressionStack = [];
+    squareCount = 0;
   }
 
   getNode() {
@@ -32,12 +34,22 @@ class ETParser {
   }
 
   readExpr(token) {
-    tokenStack.push(token);
+    // read [
+    if(token.charCodeAt(0) === 91) {
+      squareCount ++;
+    }
+    expressionStack.push(token);
   }
 
   etEndNode() {
-    console.log('readState:', readState());
-    transferState(readState(), 'html');
+    if(squareCount) {
+      expressionStack.push(']');
+      squareCount --;
+      submachine.transferState('readExpr');
+    } else {
+      console.log('ExprStack:', expressionStack);
+      transferState(readState(), 'html');
+    }
   }
 
   back() {

@@ -6,11 +6,17 @@ Object.defineProperty(exports, '__esModule', {
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj['default'] = obj; return newObj; } }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 var _StateMachine = require('StateMachine');
 
-var tokenStack, nodeStack, endValStack, expressionStack;
+var _ETStateMachine = require('ETStateMachine');
+
+var submachine = _interopRequireWildcard(_ETStateMachine);
+
+var tokenStack, nodeStack, endValStack, expressionStack, squareCount;
 
 var expression = ['if', 'else', '&&', '||', 'for', 'in', ','];
 
@@ -22,6 +28,7 @@ var ETParser = (function () {
     nodeStack = [];
     endValStack = [];
     expressionStack = [];
+    squareCount = 0;
   }
 
   _createClass(ETParser, [{
@@ -36,13 +43,23 @@ var ETParser = (function () {
   }, {
     key: 'readExpr',
     value: function readExpr(token) {
-      tokenStack.push(token);
+      // read [
+      if (token.charCodeAt(0) === 91) {
+        squareCount++;
+      }
+      expressionStack.push(token);
     }
   }, {
     key: 'etEndNode',
     value: function etEndNode() {
-      console.log('readState:', (0, _StateMachine.readState)());
-      (0, _StateMachine.transferState)((0, _StateMachine.readState)(), 'html');
+      if (squareCount) {
+        expressionStack.push(']');
+        squareCount--;
+        submachine.transferState('readExpr');
+      } else {
+        console.log('ExprStack:', expressionStack);
+        (0, _StateMachine.transferState)((0, _StateMachine.readState)(), 'html');
+      }
     }
   }, {
     key: 'back',

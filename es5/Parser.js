@@ -202,11 +202,16 @@ var Parser = (function () {
           currentNode = tokenTree[$$lastNodeId],
           currentName = currentNode.nodeName,
           parent;
-      if (nodeName !== currentName) {} else {
-        nodeStack = [];
-        parent = tokenTree[$$lastNodeId].parent;
-        $$lastNodeId = parent.$$id;
-      }
+      if (nodeName !== currentName) {
+        // console.log(this.tokenTree);
+        // console.log(`last node name:  + ${nodeName}`);
+        // console.log('current node name: ' + currentName);
+        // console.log('Tag\'s begin and tag\'s end not match, ignore this loop.');
+      } else {
+          nodeStack = [];
+          parent = tokenTree[$$lastNodeId].parent;
+          $$lastNodeId = parent.$$id;
+        }
     }
   }, {
     key: 'getAttributesKeyBegein',
@@ -258,8 +263,3 @@ var Parser = (function () {
 
 exports['default'] = Parser;
 module.exports = exports['default'];
-
-// console.log(this.tokenTree);
-// console.log(`last node name:  + ${nodeName}`);
-// console.log('current node name: ' + currentName);
-// console.log('Tag\'s begin and tag\'s end not match, ignore this loop.');

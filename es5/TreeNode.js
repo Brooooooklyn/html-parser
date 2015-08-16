@@ -7,10 +7,10 @@ Object.defineProperty(exports, '__esModule', {
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 var TreeNode = function TreeNode(nodeName, nodeType) {
-  var parent = arguments[2] === undefined ? null : arguments[2];
-  var prev = arguments[3] === undefined ? null : arguments[3];
-  var next = arguments[4] === undefined ? null : arguments[4];
-  var $$id = arguments[5] === undefined ? 'root' : arguments[5];
+  var parent = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
+  var prev = arguments.length <= 3 || arguments[3] === undefined ? null : arguments[3];
+  var next = arguments.length <= 4 || arguments[4] === undefined ? null : arguments[4];
+  var $$id = arguments.length <= 5 || arguments[5] === undefined ? 'root' : arguments[5];
 
   _classCallCheck(this, TreeNode);
 

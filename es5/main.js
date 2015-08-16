@@ -53,12 +53,12 @@ var EtParser = function EtParser(str) {
       _parser[_state](token, pos);
     } else if (_subParser[_state]) {
       _subParser[_state](token);
-    } else {}
+    } else {
+      // console.log(_state);
+    }
   }
   return _parser;
 };
 
 exports['default'] = EtParser;
 module.exports = exports['default'];
-
-// console.log(_state);
